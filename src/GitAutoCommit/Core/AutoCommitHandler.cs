@@ -153,26 +153,31 @@ namespace GitAutoCommit.Core
         private string StripFolder(string fullPath)
         {
             fullPath = fullPath.Replace(_folder, string.Empty);
-            if (fullPath[0] == '\\') return fullPath.Substring(1);
+            if (fullPath[0] == '\\') fullPath = fullPath.Substring(1);
+            return fullPath;
         }
 
         private void RunGit(string arguments, string pipeIn = null)
         {
             var start = new ProcessStartInfo("git.exe", arguments)
-                            {
-                                WorkingDirectory = _folder,
-                                CreateNoWindow = true,
-                                UseShellExecute = false,
-                                WindowStyle = ProcessWindowStyle.Hidden,
-                                RedirectStandardError = true,
-                                RedirectStandardInput = true
-                            };
+            {
+                WorkingDirectory = _folder,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true
+            };
 
             var process = Process.Start(start);
 
             process.StandardInput.Write(pipeIn);
             process.StandardInput.Close();
-
+#if DEBUG
+            var output = process.StandardOutput.ReadToEnd();
+            Console.WriteLine(output);
+#endif
             var error = process.StandardError.ReadToEnd();
 
             if (!string.IsNullOrWhiteSpace(error))

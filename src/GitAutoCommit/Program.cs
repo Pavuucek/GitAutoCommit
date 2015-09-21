@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using GitAutoCommit.Core;
 using GitAutoCommit.Forms;
@@ -40,16 +41,22 @@ namespace GitAutoCommit
 	internal static class Program
 	{
 		private static readonly List<AutoCommitHandler> Handlers = new List<AutoCommitHandler>();
+#if DEBUG
+	    private static DebugWindow dw;
+#endif
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
 		private static void Main(string[] args)
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-
+#if DEBUG
+            dw = new DebugWindow();
+            dw.Show();
+#endif
             GACApplication application;
             if (args.Length == 0)
             {
