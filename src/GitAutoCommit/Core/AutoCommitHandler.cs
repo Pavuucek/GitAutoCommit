@@ -134,13 +134,13 @@ namespace GitAutoCommit.Core
                     foreach (var file in changes)
                     {
                         //no file...
-                        if (!File.Exists(file))
-                            continue;
+                       /* if (!File.Exists(file))
+                            continue;*/
 
                         Console.WriteLine("Committing changes to {0}", file);
-                        RunGit("add \"" + file + "\"");
+                        //RunGit("add \"" + file + "\"");
                     }
-
+                    RunGit("add .");
                     RunGit("commit --file=-", CommitMessage);
                 }
             }
