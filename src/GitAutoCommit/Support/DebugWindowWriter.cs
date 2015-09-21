@@ -9,21 +9,35 @@ namespace GitAutoCommit.Support
 {
     public class DebugWindowWriter : TextWriter
     {
-        private Control textbox;
+        private TextBox textbox;
 
-        public DebugWindowWriter(Control textbox)
+        public DebugWindowWriter(TextBox textbox)
         {
             this.textbox = textbox;
         }
 
-        public override void Write(char value)
-        {
-            textbox.Text += value;
-        }
-
         public override void Write(string value)
         {
-            textbox.Text += value;
+            if (textbox.InvokeRequired)
+            {
+                textbox.Invoke(new MethodInvoker(() => textbox.AppendText(value)));
+            }
+            else
+            {
+                textbox.AppendText(value);
+            }
+        }
+
+        public override void WriteLine(string value)
+        {
+            if (textbox.InvokeRequired)
+            {
+                textbox.Invoke(new MethodInvoker(() => textbox.AppendText(value + Environment.NewLine)));
+            }
+            else
+            {
+                textbox.AppendText(value + Environment.NewLine);
+            }
         }
 
         public override Encoding Encoding

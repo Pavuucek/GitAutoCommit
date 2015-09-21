@@ -15,5 +15,10 @@ namespace GitAutoCommit.Forms
         {
             InitializeComponent();
         }
+
+        private void DebugWindow_Load(object sender, EventArgs e)
+        {
+            Console.SetOut(new Support.DebugWindowWriter(textBoxOutput));
+        }
     }
 }

@@ -28,28 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxOutput = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBoxOutput
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(284, 261);
-            this.textBox1.TabIndex = 0;
+            this.textBoxOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxOutput.Location = new System.Drawing.Point(0, 0);
+            this.textBoxOutput.Multiline = true;
+            this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.ReadOnly = true;
+            this.textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxOutput.Size = new System.Drawing.Size(284, 261);
+            this.textBoxOutput.TabIndex = 0;
             // 
             // DebugWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxOutput);
             this.Name = "DebugWindow";
             this.Text = "DebugWindow";
+            this.Load += new System.EventHandler(this.DebugWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -57,6 +58,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxOutput;
     }
 }
