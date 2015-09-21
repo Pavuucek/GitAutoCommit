@@ -48,6 +48,7 @@ namespace GitAutoCommit.Core
         private Timer _timer;
         private string _verboseCommitMessage = string.Empty;
         private FileSystemWatcher _watcher;
+        private string _commitMessage;
 
         public AutoCommitHandler()
         {
@@ -79,7 +80,11 @@ namespace GitAutoCommit.Core
             }
         }
 
-        public string CommitMessage { get; set; }
+        public string CommitMessage
+        {
+            get { return _commitMessage.Replace("{DETAILS}", _verboseCommitMessage); }
+            set { _commitMessage = value; }
+        }
 
         public string VerboseCommitMessage
         {
@@ -142,6 +147,8 @@ namespace GitAutoCommit.Core
                     }
                     RunGit("add .");
                     RunGit("commit --file=-", CommitMessage);
+                    // erase verbose commit message
+                    _verboseCommitMessage = string.Empty;
                 }
             }
             finally
@@ -184,8 +191,6 @@ namespace GitAutoCommit.Core
                 Console.WriteLine(error);
 
             process.WaitForExit();
-            // erase verbose commit message
-            _verboseCommitMessage = string.Empty;
         }
 
         private void watcher_Renamed(object sender, RenamedEventArgs e)
