@@ -46,6 +46,7 @@ namespace GitAutoCommit.Core
         private string _folder;
         private int _intervalSeconds = 30;
         private Timer _timer;
+        private string _verboseCommitMessage = string.Empty;
         private FileSystemWatcher _watcher;
 
         public AutoCommitHandler()
@@ -80,6 +81,11 @@ namespace GitAutoCommit.Core
 
         public string CommitMessage { get; set; }
 
+        public string VerboseCommitMessage
+        {
+            get { return _verboseCommitMessage; }
+        }
+
         public void OnConfigurationChange()
         {
             if (string.IsNullOrEmpty(Folder) || Interval <= 0)
@@ -91,12 +97,21 @@ namespace GitAutoCommit.Core
             _watcher.Changed += watcher_Changed;
             _watcher.Created += watcher_Created;
             _watcher.Renamed += watcher_Renamed;
+            _watcher.Deleted += _watcher_Deleted;
 
             _watcher.EnableRaisingEvents = true;
 
             _timer = new Timer(_intervalSeconds*1000);
             _timer.Elapsed += _timer_Elapsed;
             _timer.Start();
+        }
+
+        private void _watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
+                return;
+            _verboseCommitMessage += "\n deleted " + StripFolder(e.FullPath);
+            _changes.Add(e.FullPath);
         }
 
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -135,6 +150,12 @@ namespace GitAutoCommit.Core
             }
         }
 
+        private string StripFolder(string fullPath)
+        {
+            fullPath = fullPath.Replace(_folder, string.Empty);
+            if (fullPath[0] == '\\') return fullPath.Substring(1);
+        }
+
         private void RunGit(string arguments, string pipeIn = null)
         {
             var start = new ProcessStartInfo("git.exe", arguments)
@@ -158,13 +179,15 @@ namespace GitAutoCommit.Core
                 Console.WriteLine(error);
 
             process.WaitForExit();
+            // erase verbose commit message
+            _verboseCommitMessage = string.Empty;
         }
 
         private void watcher_Renamed(object sender, RenamedEventArgs e)
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-
+            _verboseCommitMessage += "\n renamed " + StripFolder(e.FullPath);
             _changes.Add(e.FullPath);
         }
 
@@ -172,7 +195,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-
+            _verboseCommitMessage += "\n created " + StripFolder(e.FullPath);
             _changes.Add(e.FullPath);
         }
 
@@ -180,7 +203,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-
+            _verboseCommitMessage += "\n changed " + StripFolder(e.FullPath);
             _changes.Add(e.FullPath);
         }
 
