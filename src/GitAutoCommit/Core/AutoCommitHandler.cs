@@ -48,7 +48,6 @@ namespace GitAutoCommit.Core
         private Timer _timer;
         private string _verboseCommitMessage = string.Empty;
         private FileSystemWatcher _watcher;
-        private string _commitMessage;
 
         public AutoCommitHandler()
         {
@@ -80,16 +79,8 @@ namespace GitAutoCommit.Core
             }
         }
 
-        public string CommitMessage
-        {
-            get { return _commitMessage.Replace("{DETAILS}", _verboseCommitMessage); }
-            set { _commitMessage = value; }
-        }
+        public string CommitMessage { get; set; }
 
-        public string VerboseCommitMessage
-        {
-            get { return _verboseCommitMessage; }
-        }
 
         public void OnConfigurationChange()
         {
@@ -97,6 +88,12 @@ namespace GitAutoCommit.Core
                 return;
 
             Dispose();
+
+            // first run git to add untracked changes
+            Console.WriteLine(string.Format("Synchronizing untracked changes in {0} ...", Folder));
+            RunGit("add .");
+            RunGit("commit --file=-", "Synchronizing untracked changes");
+            //then proceed...
 
             _watcher = new FileSystemWatcher(_folder) {IncludeSubdirectories = true};
             _watcher.Changed += watcher_Changed;
@@ -115,7 +112,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "\n deleted " + StripFolder(e.FullPath);
+            _verboseCommitMessage += "deleted " + StripFolder(e.FullPath) + Environment.NewLine;
             _changes.Add(e.FullPath);
         }
 
@@ -146,7 +143,7 @@ namespace GitAutoCommit.Core
                         //RunGit("add \"" + file + "\"");
                     }
                     RunGit("add .");
-                    RunGit("commit --file=-", CommitMessage);
+                    RunGit("commit --file=-", CommitMessage.Replace("{DETAILS}", _verboseCommitMessage));
                     // erase verbose commit message
                     _verboseCommitMessage = string.Empty;
                 }
@@ -197,7 +194,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "\n renamed " + StripFolder(e.FullPath);
+            _verboseCommitMessage += "renamed " + StripFolder(e.FullPath) + Environment.NewLine;
             _changes.Add(e.FullPath);
         }
 
@@ -205,7 +202,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "\n created " + StripFolder(e.FullPath);
+            _verboseCommitMessage += "created " + StripFolder(e.FullPath) + Environment.NewLine;
             _changes.Add(e.FullPath);
         }
 
@@ -213,7 +210,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "\n changed " + StripFolder(e.FullPath);
+            _verboseCommitMessage += "changed " + StripFolder(e.FullPath) + Environment.NewLine;
             _changes.Add(e.FullPath);
         }
 
