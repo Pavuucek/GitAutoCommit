@@ -98,9 +98,9 @@ namespace GitAutoCommit.Core
 
             _watcher = new FileSystemWatcher(_folder) {IncludeSubdirectories = true};
             _watcher.Changed += watcher_Changed;
-            _watcher.Created += watcher_Created;
+            _watcher.Created += watcher_Changed;
+            _watcher.Deleted += watcher_Changed;
             _watcher.Renamed += watcher_Renamed;
-            _watcher.Deleted += _watcher_Deleted;
 
             _watcher.EnableRaisingEvents = true;
 
@@ -109,14 +109,7 @@ namespace GitAutoCommit.Core
             _timer.Start();
         }
 
-        private void _watcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
-                return;
-            _verboseCommitMessage += "deleted " + StripFolder(e.FullPath) + Environment.NewLine;
-            _changes.Add(e.FullPath);
-        }
-
+       
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (_changes.Count == 0)
@@ -308,19 +301,12 @@ namespace GitAutoCommit.Core
             process.WaitForExit();
         }
 
-        private void watcher_Renamed(object sender, RenamedEventArgs e)
+        private void watcher_Renamed(object source, RenamedEventArgs e)
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "renamed " + StripFolder(e.FullPath) + Environment.NewLine;
-            _changes.Add(e.FullPath);
-        }
-
-        private void watcher_Created(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
-                return;
-            _verboseCommitMessage += "created " + StripFolder(e.FullPath) + Environment.NewLine;
+            _verboseCommitMessage += string.Format("{0} renamed to {1}{2}", StripFolder(e.FullPath),
+                StripFolder(e.OldFullPath), Environment.NewLine);
             _changes.Add(e.FullPath);
         }
 
@@ -328,7 +314,8 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "changed " + StripFolder(e.FullPath) + Environment.NewLine;
+            _verboseCommitMessage += string.Format("{0} {1}{2}", StripFolder(e.FullPath), e.ChangeType.ToString(),
+                Environment.NewLine);
             _changes.Add(e.FullPath);
         }
 

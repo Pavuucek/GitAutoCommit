@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationIcon>..\..\icon\icon_16.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GitAutoCommit.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
