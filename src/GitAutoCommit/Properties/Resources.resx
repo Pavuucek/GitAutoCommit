@@ -181,4 +181,16 @@
   <data name="Interval_1_second" xml:space="preserve">
     <value>1 second</value>
   </data>
+  <data name="EditTaskForm_Bind_add_task" xml:space="preserve">
+    <value>add task</value>
+  </data>
+  <data name="EditTaskForm_Bind_Automatic_commit" xml:space="preserve">
+    <value>Automatic commit</value>
+  </data>
+  <data name="EditTaskForm_FormIsValid_Please_enter_a_valid_folder" xml:space="preserve">
+    <value>Please enter a valid folder</value>
+  </data>
+  <data name="EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository" xml:space="preserve">
+    <value>The selected folder doesn't seem to be a git repository</value>
+  </data>
 </root>

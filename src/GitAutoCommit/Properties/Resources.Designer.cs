@@ -71,6 +71,42 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný add task.
+        /// </summary>
+        internal static string EditTaskForm_Bind_add_task {
+            get {
+                return ResourceManager.GetString("EditTaskForm_Bind_add_task", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Automatic commit.
+        /// </summary>
+        internal static string EditTaskForm_Bind_Automatic_commit {
+            get {
+                return ResourceManager.GetString("EditTaskForm_Bind_Automatic_commit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Please enter a valid folder.
+        /// </summary>
+        internal static string EditTaskForm_FormIsValid_Please_enter_a_valid_folder {
+            get {
+                return ResourceManager.GetString("EditTaskForm_FormIsValid_Please_enter_a_valid_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný The selected folder doesn&apos;t seem to be a git repository.
+        /// </summary>
+        internal static string EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository {
+            get {
+                return ResourceManager.GetString("EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap error {

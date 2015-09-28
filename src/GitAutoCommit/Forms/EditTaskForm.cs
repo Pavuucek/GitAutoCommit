@@ -35,13 +35,14 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using GitAutoCommit.Core;
+using GitAutoCommit.Properties;
 using GitAutoCommit.Support;
 
 namespace GitAutoCommit.Forms
 {
     public partial class EditTaskForm : HeadingForm
     {
-        private static readonly Interval[] _intervals =
+        private static readonly Interval[] Intervals =
         {
             new Interval(1),
             new Interval(5),
@@ -63,7 +64,7 @@ namespace GitAutoCommit.Forms
 
             commitMessageTextBox.Font = FontHelper.MonospaceFont;
 
-            intervalComboBox.Items.AddRange(_intervals);
+            intervalComboBox.Items.AddRange(Intervals);
         }
 
         public DialogResult EditTask(AutoCommitTask item, IWin32Window owner)
@@ -90,7 +91,7 @@ namespace GitAutoCommit.Forms
         private void Bind(AutoCommitTask item)
         {
             if (string.IsNullOrEmpty(item.Handler.Folder))
-                Text = "add task";
+                Text = Resources.EditTaskForm_Bind_add_task;
 
             if (string.IsNullOrEmpty(item.CommitMessage)) item.CommitMessage = "";
 
@@ -108,16 +109,16 @@ namespace GitAutoCommit.Forms
                 nameTextBox.Text = Path.GetFileName(folderTextBox.Text);
 
             if (commitMessageTextBox.Text == "")
-                commitMessageTextBox.Text = "Automatic commit";
+                commitMessageTextBox.Text = Resources.EditTaskForm_Bind_Automatic_commit;
 
-            intervalComboBox.SelectedItem = _intervals.FirstOrDefault(x => x.Seconds == item.Interval);
+            intervalComboBox.SelectedItem = Intervals.FirstOrDefault(x => x.Seconds == item.Interval);
         }
 
         private bool FormIsValid()
         {
             if (folderTextBox.Text == "" || !Directory.Exists(folderTextBox.Text))
             {
-                MessageBox.Show(this, "Please enter a valid folder", "git auto commit", MessageBoxButtons.OK,
+                MessageBox.Show(this, Resources.EditTaskForm_FormIsValid_Please_enter_a_valid_folder, Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return false;
             }
@@ -125,7 +126,7 @@ namespace GitAutoCommit.Forms
             //check if it is a git repository
             if (!Directory.Exists(Path.Combine(folderTextBox.Text, ".git")))
             {
-                MessageBox.Show(this, "The selected folder doesn't seem to be a git repository", "git auto commit",
+                MessageBox.Show(this, Resources.EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository, Resources.Program_Main_git_auto_commit,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -134,7 +135,7 @@ namespace GitAutoCommit.Forms
                 nameTextBox.Text = Path.GetFileName(folderTextBox.Text);
 
             if (commitMessageTextBox.Text == "")
-                commitMessageTextBox.Text = "Automatic commit";
+                commitMessageTextBox.Text = Resources.EditTaskForm_Bind_Automatic_commit;
 
             return true;
         }
