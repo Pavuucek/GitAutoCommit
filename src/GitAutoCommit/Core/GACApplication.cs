@@ -39,28 +39,28 @@ using System.Xml.Serialization;
 namespace GitAutoCommit.Core
 {
     [XmlType("git-auto-commit-settings")]
-    public class GACApplication
+    public class GacApplication
     {
         private static readonly string SettingsDirectory =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "git-auto-commit");
 
         private static readonly string SettingsFile = Path.Combine(SettingsDirectory, "settings.xml");
 
-        public GACApplication()
+        public GacApplication()
         {
         }
 
-        public GACApplication(bool startup)
+        public GacApplication(bool startup)
         {
             if (Directory.Exists(SettingsDirectory) && File.Exists(SettingsFile))
             {
-                var serializer = new XmlSerializer(typeof (GACApplication));
+                var serializer = new XmlSerializer(typeof (GacApplication));
 
                 try
                 {
                     using (var file = new FileStream(SettingsFile, FileMode.Open, FileAccess.Read))
                     {
-                        Tasks = ((GACApplication) serializer.Deserialize(file)).Tasks;
+                        Tasks = ((GacApplication) serializer.Deserialize(file)).Tasks;
                         Tasks.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
                     }
 
@@ -84,7 +84,7 @@ namespace GitAutoCommit.Core
                 Tasks = new List<AutoCommitTask>();
         }
 
-        public GACApplication(bool isCommandLineDriven, IEnumerable<AutoCommitTask> tasks)
+        public GacApplication(bool isCommandLineDriven, IEnumerable<AutoCommitTask> tasks)
         {
             IsCommandLineDriven = isCommandLineDriven;
             Tasks = tasks.ToList();
@@ -100,7 +100,7 @@ namespace GitAutoCommit.Core
         {
             Tasks.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
 
-            var serializer = new XmlSerializer(typeof (GACApplication));
+            var serializer = new XmlSerializer(typeof (GacApplication));
 
             if (!Directory.Exists(SettingsDirectory))
                 Directory.CreateDirectory(SettingsDirectory);

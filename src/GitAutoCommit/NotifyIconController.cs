@@ -39,12 +39,12 @@ namespace GitAutoCommit
 {
     public class NotifyIconController
     {
-        private readonly GACApplication _application;
+        private readonly GacApplication _application;
         private readonly NotifyIcon _notifyIcon;
 
         private MainForm _mainForm;
 
-        public NotifyIconController(GACApplication application)
+        public NotifyIconController(GacApplication application)
         {
             _application = application;
             _notifyIcon = new NotifyIcon();

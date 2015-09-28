@@ -61,6 +61,33 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Committing changes to {0}.
+        /// </summary>
+        internal static string AutoCommitHandler__timer_Elapsed_Committing_changes {
+            get {
+                return ResourceManager.GetString("AutoCommitHandler__timer_Elapsed_Committing_changes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronizing untracked changes in {0} ....
+        /// </summary>
+        internal static string AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes {
+            get {
+                return ResourceManager.GetString("AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Synchronizing untracked changes.
+        /// </summary>
+        internal static string AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes_commit {
+            get {
+                return ResourceManager.GetString("AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes_commit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap edit {

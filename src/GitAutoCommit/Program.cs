@@ -60,10 +60,10 @@ namespace GitAutoCommit
             _dw = new DebugWindow();
             _dw.Show();
 #endif
-            GACApplication application;
+            GacApplication application;
             if (args.Length == 0)
             {
-                application = new GACApplication(true);
+                application = new GacApplication(true);
             }
             else
             {
@@ -84,7 +84,7 @@ namespace GitAutoCommit
                 }
 
                 var tasks = args.Skip(1).Select(x => new AutoCommitTask(interval, x));
-                application = new GACApplication(true, tasks);
+                application = new GacApplication(true, tasks);
             }
 
             var icon = new NotifyIconController(application);

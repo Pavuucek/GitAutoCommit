@@ -193,4 +193,13 @@
   <data name="EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository" xml:space="preserve">
     <value>The selected folder doesn't seem to be a git repository</value>
   </data>
+  <data name="AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes" xml:space="preserve">
+    <value>Synchronizing untracked changes in {0} ...</value>
+  </data>
+  <data name="AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes_commit" xml:space="preserve">
+    <value>Synchronizing untracked changes</value>
+  </data>
+  <data name="AutoCommitHandler__timer_Elapsed_Committing_changes" xml:space="preserve">
+    <value>Committing changes to {0}</value>
+  </data>
 </root>

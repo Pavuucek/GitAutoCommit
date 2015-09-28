@@ -90,7 +90,7 @@
     <Compile Include="Forms\HeadingForm.Designer.cs">
       <DependentUpon>HeadingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\GACApplication.cs" />
+    <Compile Include="Core\GacApplication.cs" />
     <Compile Include="Support\DebugWindowWriter.cs" />
     <Compile Include="Support\Interval.cs" />
     <Compile Include="ValueEventArgs.cs" />

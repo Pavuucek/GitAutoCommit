@@ -41,9 +41,9 @@ namespace GitAutoCommit.Forms
     {
         private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
 
-        private readonly GACApplication _application;
+        private readonly GacApplication _application;
 
-        public MainForm(GACApplication application)
+        public MainForm(GacApplication application)
         {
             _application = application;
             InitializeComponent();
