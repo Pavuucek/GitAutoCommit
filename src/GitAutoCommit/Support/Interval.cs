@@ -22,7 +22,8 @@
 
             if (Seconds > 60)
                 return string.Format("{0} minutes", Seconds/60);
-
+            if (Seconds == 1)
+                return string.Format("1 second");
             return string.Format("{0} seconds", Seconds);
         }
     }
