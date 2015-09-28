@@ -39,11 +39,11 @@ namespace GitAutoCommit.Support
 {
     public class DebugWindowWriter : TextWriter
     {
-        private readonly TextBox textbox;
+        private readonly TextBox _textbox;
 
         public DebugWindowWriter(TextBox textbox)
         {
-            this.textbox = textbox;
+            _textbox = textbox;
         }
 
         public override Encoding Encoding
@@ -53,25 +53,25 @@ namespace GitAutoCommit.Support
 
         public override void Write(string value)
         {
-            if (textbox.InvokeRequired)
+            if (_textbox.InvokeRequired)
             {
-                textbox.Invoke(new MethodInvoker(() => textbox.AppendText(value)));
+                _textbox.Invoke(new MethodInvoker(() => _textbox.AppendText(value)));
             }
             else
             {
-                textbox.AppendText(value);
+                _textbox.AppendText(value);
             }
         }
 
         public override void WriteLine(string value)
         {
-            if (textbox.InvokeRequired)
+            if (_textbox.InvokeRequired)
             {
-                textbox.Invoke(new MethodInvoker(() => textbox.AppendText(value + Environment.NewLine)));
+                _textbox.Invoke(new MethodInvoker(() => _textbox.AppendText(value + Environment.NewLine)));
             }
             else
             {
-                textbox.AppendText(value + Environment.NewLine);
+                _textbox.AppendText(value + Environment.NewLine);
             }
         }
     }

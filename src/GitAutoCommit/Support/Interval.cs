@@ -30,6 +30,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #endregion
 
+using GitAutoCommit.Properties;
+
 namespace GitAutoCommit.Support
 {
     public class Interval
@@ -44,19 +46,19 @@ namespace GitAutoCommit.Support
         public override string ToString()
         {
             if (Seconds > 60*60)
-                return string.Format("{0} hours", Seconds/60/60);
+                return string.Format(Resources.Interval_hours, Seconds/60/60);
 
             if (Seconds == 60*60)
-                return "1 hour";
+                return Resources.Interval_1_hour;
 
             if (Seconds == 60)
-                return "1 minute";
+                return Resources.Interval_1_minute;
 
             if (Seconds > 60)
-                return string.Format("{0} minutes", Seconds/60);
+                return string.Format(Resources.Interval_minutes, Seconds/60);
             if (Seconds == 1)
-                return "1 second";
-            return string.Format("{0} seconds", Seconds);
+                return Resources.Interval_1_second;
+            return string.Format(Resources.Interval_seconds, Seconds);
         }
     }
 }

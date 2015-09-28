@@ -101,6 +101,60 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný 1 hour.
+        /// </summary>
+        internal static string Interval_1_hour {
+            get {
+                return ResourceManager.GetString("Interval_1_hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný 1 minute.
+        /// </summary>
+        internal static string Interval_1_minute {
+            get {
+                return ResourceManager.GetString("Interval_1_minute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný 1 second.
+        /// </summary>
+        internal static string Interval_1_second {
+            get {
+                return ResourceManager.GetString("Interval_1_second", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný {0} hours.
+        /// </summary>
+        internal static string Interval_hours {
+            get {
+                return ResourceManager.GetString("Interval_hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný {0} minutes.
+        /// </summary>
+        internal static string Interval_minutes {
+            get {
+                return ResourceManager.GetString("Interval_minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný {0} seconds.
+        /// </summary>
+        internal static string Interval_seconds {
+            get {
+                return ResourceManager.GetString("Interval_seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap minus {

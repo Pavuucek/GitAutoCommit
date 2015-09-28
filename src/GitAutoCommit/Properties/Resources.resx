@@ -163,4 +163,22 @@
   <data name="Program_AllDirectoriesExist_Directory_is_not_a_git_repository" xml:space="preserve">
     <value>Directory {0} is not a git repository</value>
   </data>
+  <data name="Interval_hours" xml:space="preserve">
+    <value>{0} hours</value>
+  </data>
+  <data name="Interval_minutes" xml:space="preserve">
+    <value>{0} minutes</value>
+  </data>
+  <data name="Interval_seconds" xml:space="preserve">
+    <value>{0} seconds</value>
+  </data>
+  <data name="Interval_1_hour" xml:space="preserve">
+    <value>1 hour</value>
+  </data>
+  <data name="Interval_1_minute" xml:space="preserve">
+    <value>1 minute</value>
+  </data>
+  <data name="Interval_1_second" xml:space="preserve">
+    <value>1 second</value>
+  </data>
 </root>
