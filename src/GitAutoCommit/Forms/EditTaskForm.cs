@@ -10,19 +10,20 @@ namespace GitAutoCommit.Forms
     public partial class EditTaskForm : HeadingForm
     {
         private static readonly Interval[] _intervals = new[]
-            {
-                new Interval(5),
-                new Interval(10),
-                new Interval(15),
-                new Interval(30),
-                new Interval(60),
-                new Interval(60*2),
-                new Interval(60*5),
-                new Interval(60*10),
-                new Interval(60*15),
-                new Interval(60*30),
-                new Interval(60*60),
-            };
+        {
+            new Interval(1),
+            new Interval(5),
+            new Interval(10),
+            new Interval(15),
+            new Interval(30),
+            new Interval(60),
+            new Interval(60*2),
+            new Interval(60*5),
+            new Interval(60*10),
+            new Interval(60*15),
+            new Interval(60*30),
+            new Interval(60*60)
+        };
 
         public EditTaskForm()
         {

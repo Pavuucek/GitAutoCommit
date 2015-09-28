@@ -37,6 +37,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Timers;
+using Microsoft.Win32;
 
 namespace GitAutoCommit.Core
 {
@@ -81,10 +82,6 @@ namespace GitAutoCommit.Core
 
         public string CommitMessage { get; set; }
 
-        public string VerboseCommitMessage
-        {
-            get { return _verboseCommitMessage; }
-        }
 
         public void OnConfigurationChange()
         {
@@ -93,12 +90,17 @@ namespace GitAutoCommit.Core
 
             Dispose();
 
+            // first run git to add untracked changes
+            Console.WriteLine(string.Format("Synchronizing untracked changes in {0} ...", Folder));
+            RunGit("add .");
+            RunGit("commit --file=-", "Synchronizing untracked changes");
+            //then proceed...
+
             _watcher = new FileSystemWatcher(_folder) {IncludeSubdirectories = true};
             _watcher.Changed += watcher_Changed;
-            _watcher.Created += watcher_Created;
+            _watcher.Created += watcher_Changed;
+            _watcher.Deleted += watcher_Changed;
             _watcher.Renamed += watcher_Renamed;
-            _watcher.Deleted += _watcher_Deleted;
-
             _watcher.EnableRaisingEvents = true;
 
             _timer = new Timer(_intervalSeconds*1000);
@@ -106,14 +108,7 @@ namespace GitAutoCommit.Core
             _timer.Start();
         }
 
-        private void _watcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
-                return;
-            _verboseCommitMessage += "\n deleted " + StripFolder(e.FullPath);
-            _changes.Add(e.FullPath);
-        }
-
+       
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (_changes.Count == 0)
@@ -134,20 +129,139 @@ namespace GitAutoCommit.Core
                     foreach (var file in changes)
                     {
                         //no file...
-                        if (!File.Exists(file))
-                            continue;
+                       /* if (!File.Exists(file))
+                            continue;*/
 
                         Console.WriteLine("Committing changes to {0}", file);
-                        RunGit("add \"" + file + "\"");
+                        //RunGit("add \"" + file + "\"");
                     }
-
-                    RunGit("commit --file=-", CommitMessage);
+                    RunGit("add .");
+                    RunGit("commit --file=-", CommitMessage.Replace("{DETAILS}", _verboseCommitMessage));
+                    // erase verbose commit message
+                    _verboseCommitMessage = string.Empty;
                 }
             }
             finally
             {
                 _timer.Start();
             }
+        }
+
+        private static readonly string GitExeName = Environment.OSVersion.Platform == PlatformID.Unix
+            ? "git"
+            : "git.exe";
+
+
+        /// <summary>
+        ///     Gets a value indicating whether OS is 64bit.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [is64 bit]; otherwise, <c>false</c>.
+        /// </value>
+        private static bool Is64Bit
+        {
+            get
+            {
+                return IntPtr.Size == 8 ||
+                       !String.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"));
+            }
+        }
+
+        /// <summary>
+        ///     Gets Program Files directory
+        /// </summary>
+        /// <returns>Program Files or Program Files (x86) directory</returns>
+        private static string ProgramFilesX86()
+        {
+            if (Is64Bit)
+            {
+                return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+            }
+            return Environment.GetEnvironmentVariable("ProgramFiles");
+        }
+
+        /// <summary>
+        ///     Finds the git binary.
+        /// </summary>
+        /// <returns></returns>
+        private static string FindGitBinary()
+        {
+            string git = null;
+            RegistryKey key;
+
+            // Try the PATH environment variable
+
+            string pathEnv = Environment.GetEnvironmentVariable("PATH");
+            if (pathEnv != null)
+                foreach (string dir in pathEnv.Split(Path.PathSeparator))
+                {
+                    string sdir = dir;
+                    if (sdir.StartsWith("\"") && sdir.EndsWith("\""))
+                    {
+                        // Strip quotes (no Path.PathSeparator supported in quoted directories though)
+                        sdir = sdir.Substring(1, sdir.Length - 2);
+                    }
+                    git = Path.Combine(sdir, GitExeName);
+                    if (File.Exists(git)) break;
+                }
+            if (!File.Exists(git)) git = null;
+
+
+            // Read registry uninstaller key
+            if (git == null)
+            {
+                key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1");
+                if (key != null)
+                {
+                    object loc = key.GetValue("InstallLocation");
+                    if (loc is string)
+                    {
+                        git = Path.Combine((string)loc, Path.Combine("bin", GitExeName));
+                        if (!File.Exists(git)) git = null;
+                    }
+                }
+            }
+
+
+            // Try 64-bit registry key
+            if (git == null && Is64Bit)
+            {
+                key =
+                    Registry.LocalMachine.OpenSubKey(
+                        @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1");
+                if (key != null)
+                {
+                    object loc = key.GetValue("InstallLocation");
+                    if (loc is string)
+                    {
+                        git = Path.Combine((string)loc, Path.Combine("bin", GitExeName));
+                        if (!File.Exists(git)) git = null;
+                    }
+                }
+            }
+
+            // Search program files directory
+            if (git == null)
+            {
+                foreach (
+                    string dir in
+                        Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                            "git*"))
+                {
+                    git = Path.Combine(dir, Path.Combine("bin", GitExeName));
+                    if (!File.Exists(git)) git = null;
+                }
+            }
+
+            // Try 32-bit program files directory
+            if (git != null || !Is64Bit) return git;
+            foreach (string dir in Directory.GetDirectories(ProgramFilesX86(), "git*"))
+            {
+                git = Path.Combine(dir, Path.Combine("bin", GitExeName));
+                if (!File.Exists(git)) git = null;
+            }
+
+            return git;
         }
 
         private string StripFolder(string fullPath)
@@ -159,7 +273,7 @@ namespace GitAutoCommit.Core
 
         private void RunGit(string arguments, string pipeIn = null)
         {
-            var start = new ProcessStartInfo("git.exe", arguments)
+            var start = new ProcessStartInfo(FindGitBinary(), arguments)
             {
                 WorkingDirectory = _folder,
                 CreateNoWindow = true,
@@ -184,23 +298,14 @@ namespace GitAutoCommit.Core
                 Console.WriteLine(error);
 
             process.WaitForExit();
-            // erase verbose commit message
-            _verboseCommitMessage = string.Empty;
         }
 
-        private void watcher_Renamed(object sender, RenamedEventArgs e)
+        private void watcher_Renamed(object source, RenamedEventArgs e)
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "\n renamed " + StripFolder(e.FullPath);
-            _changes.Add(e.FullPath);
-        }
-
-        private void watcher_Created(object sender, FileSystemEventArgs e)
-        {
-            if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
-                return;
-            _verboseCommitMessage += "\n created " + StripFolder(e.FullPath);
+            _verboseCommitMessage += string.Format("{1} renamed to {0}{2}", StripFolder(e.FullPath),
+                StripFolder(e.OldFullPath), Environment.NewLine);
             _changes.Add(e.FullPath);
         }
 
@@ -208,7 +313,9 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += "\n changed " + StripFolder(e.FullPath);
+            var line = string.Format("{1} {0}{2}", StripFolder(e.FullPath), e.ChangeType, Environment.NewLine);
+            // we don't want multiple same messages
+            if (!_verboseCommitMessage.EndsWith(line)) _verboseCommitMessage += line;
             _changes.Add(e.FullPath);
         }
 
