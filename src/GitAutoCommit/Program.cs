@@ -37,14 +37,15 @@ using System.Linq;
 using System.Windows.Forms;
 using GitAutoCommit.Core;
 using GitAutoCommit.Forms;
+using GitAutoCommit.Properties;
 
 namespace GitAutoCommit
 {
     internal static class Program
     {
-        private static readonly List<AutoCommitHandler> Handlers = new List<AutoCommitHandler>();
+        //private static readonly List<AutoCommitHandler> Handlers = new List<AutoCommitHandler>();
 #if DEBUG
-        private static DebugWindow dw;
+        private static DebugWindow _dw;
 #endif
 
         /// <summary>
@@ -56,8 +57,8 @@ namespace GitAutoCommit
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 #if DEBUG
-            dw = new DebugWindow();
-            dw.Show();
+            _dw = new DebugWindow();
+            _dw.Show();
 #endif
             GACApplication application;
             if (args.Length == 0)
@@ -72,12 +73,12 @@ namespace GitAutoCommit
                     !AllDirectoriesExist(args.Skip(1), out error))
                 {
                     if (string.IsNullOrEmpty(error))
-                        error = "Invalid command line arguments";
+                        error = Resources.Program_Main_Invalid_command_line_arguments;
 
                     error = error + "\r\n\r\n" +
-                            "usage: git-auto-commit <commit-interval-seconds> <directory 1>, <directory 2>, ..., <directory n>";
+                            Resources.Program_Main_usage;
 
-                    MessageBox.Show(error, "git-auto-commit", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(error, Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Environment.Exit(1);
                     return;
                 }
@@ -98,13 +99,13 @@ namespace GitAutoCommit
             {
                 if (!Directory.Exists(directory))
                 {
-                    error = "Directory {0} doesn't exist";
+                    error = string.Format(Resources.Program_AllDirectoriesExist_Directory_doesnt_exist, directory);
                     return false;
                 }
 
                 if (!Directory.Exists(Path.Combine(directory, ".git")))
                 {
-                    error = "Directory {0} is not a git repository";
+                    error = string.Format(Resources.Program_AllDirectoriesExist_Directory_is_not_a_git_repository, directory);
                     return false;
                 }
             }

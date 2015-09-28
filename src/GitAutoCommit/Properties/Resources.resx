@@ -139,4 +139,28 @@
   <data name="plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Program_Main_git_auto_commit" xml:space="preserve">
+    <value>git-auto-commit</value>
+  </data>
+  <data name="NotifyIconController_NotifyIconController_Git_auto_commit" xml:space="preserve">
+    <value>Git auto commit</value>
+  </data>
+  <data name="NotifyIconController_NotifyIconController_Configuration" xml:space="preserve">
+    <value>&amp;Configuration</value>
+  </data>
+  <data name="NotifyIconController_NotifyIconController_Exit" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="Program_Main_Invalid_command_line_arguments" xml:space="preserve">
+    <value>Invalid command line arguments</value>
+  </data>
+  <data name="Program_Main_usage" xml:space="preserve">
+    <value>usage: git-auto-commit &lt;commit-interval-seconds&gt; &lt;directory 1&gt;, &lt;directory 2&gt;, ..., &lt;directory n&gt;</value>
+  </data>
+  <data name="Program_AllDirectoriesExist_Directory_doesnt_exist" xml:space="preserve">
+    <value>Directory {0} doesn't exist</value>
+  </data>
+  <data name="Program_AllDirectoriesExist_Directory_is_not_a_git_repository" xml:space="preserve">
+    <value>Directory {0} is not a git repository</value>
+  </data>
 </root>

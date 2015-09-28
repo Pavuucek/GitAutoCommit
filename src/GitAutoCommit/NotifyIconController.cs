@@ -40,7 +40,6 @@ namespace GitAutoCommit
     public class NotifyIconController
     {
         private readonly GACApplication _application;
-        private readonly ContextMenuStrip _contextMenu;
         private readonly NotifyIcon _notifyIcon;
 
         private MainForm _mainForm;
@@ -49,18 +48,18 @@ namespace GitAutoCommit
         {
             _application = application;
             _notifyIcon = new NotifyIcon();
-            _contextMenu = new ContextMenuStrip();
-            _contextMenu.Items.AddRange(
-                new[]
+            var contextMenu = new ContextMenuStrip();
+            contextMenu.Items.AddRange(
+                new ToolStripItem[]
                 {
-                    new ToolStripMenuItem("&Configuration", null, (s, e) => ShowMainForm()),
-                    new ToolStripMenuItem("E&xit", null, (s, e) => Close())
+                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Configuration, null, (s, e) => ShowMainForm()),
+                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Exit, null, (s, e) => Close())
                 }
                 );
 
-            _notifyIcon.ContextMenuStrip = _contextMenu;
+            _notifyIcon.ContextMenuStrip = contextMenu;
             _notifyIcon.Icon = Resources.icon_16;
-            _notifyIcon.Text = "Git auto commit";
+            _notifyIcon.Text = Resources.NotifyIconController_NotifyIconController_Git_auto_commit;
 
             _notifyIcon.DoubleClick += delegate { ShowMainForm(); };
 

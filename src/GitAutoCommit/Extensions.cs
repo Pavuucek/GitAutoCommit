@@ -30,6 +30,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #endregion
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -43,6 +44,9 @@ namespace GitAutoCommit
         /// <param name="list">List</param>
         /// <param name="index">Index of the item</param>
         /// <param name="difference">Direction to move (-ve for up, +ve for down. The actual value determines how many places)</param>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index" /> is not a valid index in the <see cref="T:System.Collections.IList" />. </exception>
+        /// <exception cref="NotSupportedException">The <see cref="T:System.Collections.IList" /> is read-only.-or- The <see cref="T:System.Collections.IList" /> has a fixed size. </exception>
+        /// <exception cref="NullReferenceException"><paramref name="list" /> is null reference in the <see cref="T:System.Collections.IList" />.</exception>
         public static void Move(this IList list, int index, int difference)
         {
             var newIndex2 = index + difference;
