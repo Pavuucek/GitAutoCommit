@@ -35,7 +35,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Timers;
 using Microsoft.Win32;
 
@@ -43,8 +42,11 @@ namespace GitAutoCommit.Core
 {
     public class AutoCommitHandler : IDisposable
     {
+        private static readonly string GitExeName = Environment.OSVersion.Platform == PlatformID.Unix
+            ? "git"
+            : "git.exe";
+
         private readonly ConcurrentBag<string> _changes = new ConcurrentBag<string>();
-        private string _folder;
         private int _intervalSeconds = 30;
         private Timer _timer;
         private string _verboseCommitMessage = string.Empty;
@@ -57,16 +59,12 @@ namespace GitAutoCommit.Core
         public AutoCommitHandler(int intervalSeconds, string folder)
         {
             _intervalSeconds = intervalSeconds;
-            _folder = folder;
+            Folder = folder;
 
             OnConfigurationChange();
         }
 
-        public string Folder
-        {
-            get { return _folder; }
-            set { _folder = value; }
-        }
+        public string Folder { get; set; }
 
         public int Interval
         {
@@ -83,6 +81,45 @@ namespace GitAutoCommit.Core
         public string CommitMessage { get; set; }
 
 
+        /// <summary>
+        ///     Gets a value indicating whether OS is 64bit.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [is64 bit]; otherwise, <c>false</c>.
+        /// </value>
+        private static bool Is64Bit
+        {
+            get
+            {
+                return IntPtr.Size == 8 ||
+                       !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"));
+            }
+        }
+
+        #region Implementation of IDisposable
+
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        public void Dispose()
+        {
+            if (_watcher != null)
+            {
+                _watcher.EnableRaisingEvents = false;
+                _watcher.Dispose();
+                _watcher = null;
+            }
+
+            if (_timer != null)
+            {
+                _timer.Dispose();
+                _timer = null;
+            }
+        }
+
+        #endregion
+
         public void OnConfigurationChange()
         {
             if (string.IsNullOrEmpty(Folder) || Interval <= 0)
@@ -91,12 +128,12 @@ namespace GitAutoCommit.Core
             Dispose();
 
             // first run git to add untracked changes
-            Console.WriteLine(string.Format("Synchronizing untracked changes in {0} ...", Folder));
+            Console.WriteLine("Synchronizing untracked changes in {0} ...", Folder);
             RunGit("add .");
             RunGit("commit --file=-", "Synchronizing untracked changes");
             //then proceed...
 
-            _watcher = new FileSystemWatcher(_folder) {IncludeSubdirectories = true};
+            _watcher = new FileSystemWatcher(Folder) {IncludeSubdirectories = true};
             _watcher.Changed += watcher_Changed;
             _watcher.Created += watcher_Changed;
             _watcher.Deleted += watcher_Changed;
@@ -108,7 +145,7 @@ namespace GitAutoCommit.Core
             _timer.Start();
         }
 
-       
+
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (_changes.Count == 0)
@@ -129,7 +166,7 @@ namespace GitAutoCommit.Core
                     foreach (var file in changes)
                     {
                         //no file...
-                       /* if (!File.Exists(file))
+                        /* if (!File.Exists(file))
                             continue;*/
 
                         Console.WriteLine("Committing changes to {0}", file);
@@ -144,26 +181,6 @@ namespace GitAutoCommit.Core
             finally
             {
                 _timer.Start();
-            }
-        }
-
-        private static readonly string GitExeName = Environment.OSVersion.Platform == PlatformID.Unix
-            ? "git"
-            : "git.exe";
-
-
-        /// <summary>
-        ///     Gets a value indicating whether OS is 64bit.
-        /// </summary>
-        /// <value>
-        ///     <c>true</c> if [is64 bit]; otherwise, <c>false</c>.
-        /// </value>
-        private static bool Is64Bit
-        {
-            get
-            {
-                return IntPtr.Size == 8 ||
-                       !String.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"));
             }
         }
 
@@ -191,11 +208,11 @@ namespace GitAutoCommit.Core
 
             // Try the PATH environment variable
 
-            string pathEnv = Environment.GetEnvironmentVariable("PATH");
+            var pathEnv = Environment.GetEnvironmentVariable("PATH");
             if (pathEnv != null)
-                foreach (string dir in pathEnv.Split(Path.PathSeparator))
+                foreach (var dir in pathEnv.Split(Path.PathSeparator))
                 {
-                    string sdir = dir;
+                    var sdir = dir;
                     if (sdir.StartsWith("\"") && sdir.EndsWith("\""))
                     {
                         // Strip quotes (no Path.PathSeparator supported in quoted directories though)
@@ -213,10 +230,10 @@ namespace GitAutoCommit.Core
                 key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1");
                 if (key != null)
                 {
-                    object loc = key.GetValue("InstallLocation");
+                    var loc = key.GetValue("InstallLocation");
                     if (loc is string)
                     {
-                        git = Path.Combine((string)loc, Path.Combine("bin", GitExeName));
+                        git = Path.Combine((string) loc, Path.Combine("bin", GitExeName));
                         if (!File.Exists(git)) git = null;
                     }
                 }
@@ -231,10 +248,10 @@ namespace GitAutoCommit.Core
                         @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1");
                 if (key != null)
                 {
-                    object loc = key.GetValue("InstallLocation");
+                    var loc = key.GetValue("InstallLocation");
                     if (loc is string)
                     {
-                        git = Path.Combine((string)loc, Path.Combine("bin", GitExeName));
+                        git = Path.Combine((string) loc, Path.Combine("bin", GitExeName));
                         if (!File.Exists(git)) git = null;
                     }
                 }
@@ -244,7 +261,7 @@ namespace GitAutoCommit.Core
             if (git == null)
             {
                 foreach (
-                    string dir in
+                    var dir in
                         Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                             "git*"))
                 {
@@ -255,7 +272,7 @@ namespace GitAutoCommit.Core
 
             // Try 32-bit program files directory
             if (git != null || !Is64Bit) return git;
-            foreach (string dir in Directory.GetDirectories(ProgramFilesX86(), "git*"))
+            foreach (var dir in Directory.GetDirectories(ProgramFilesX86(), "git*"))
             {
                 git = Path.Combine(dir, Path.Combine("bin", GitExeName));
                 if (!File.Exists(git)) git = null;
@@ -266,7 +283,7 @@ namespace GitAutoCommit.Core
 
         private string StripFolder(string fullPath)
         {
-            fullPath = fullPath.Replace(_folder, string.Empty);
+            fullPath = fullPath.Replace(Folder, string.Empty);
             if (fullPath[0] == '\\') fullPath = fullPath.Substring(1);
             return fullPath;
         }
@@ -275,7 +292,7 @@ namespace GitAutoCommit.Core
         {
             var start = new ProcessStartInfo(FindGitBinary(), arguments)
             {
-                WorkingDirectory = _folder,
+                WorkingDirectory = Folder,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden,
@@ -319,38 +336,15 @@ namespace GitAutoCommit.Core
             _changes.Add(e.FullPath);
         }
 
-        public void SetProperties(string folder, string commitMessage, int intervalSeconds, bool fireConfigurationChange = false)
+        public void SetProperties(string folder, string commitMessage, int intervalSeconds,
+            bool fireConfigurationChange = false)
         {
-            _folder = folder;
+            Folder = folder;
             CommitMessage = commitMessage;
             _intervalSeconds = intervalSeconds;
 
             if (fireConfigurationChange)
                 OnConfigurationChange();
         }
-
-        #region Implementation of IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            if (_watcher != null)
-            {
-                _watcher.EnableRaisingEvents = false;
-                _watcher.Dispose();
-                _watcher = null;
-            }
-
-            if (_timer != null)
-            {
-                _timer.Dispose();
-                _timer = null;
-            }
-        }
-
-        #endregion
     }
 }
