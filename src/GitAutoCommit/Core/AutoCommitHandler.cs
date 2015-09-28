@@ -101,7 +101,6 @@ namespace GitAutoCommit.Core
             _watcher.Created += watcher_Changed;
             _watcher.Deleted += watcher_Changed;
             _watcher.Renamed += watcher_Renamed;
-
             _watcher.EnableRaisingEvents = true;
 
             _timer = new Timer(_intervalSeconds*1000);
@@ -305,7 +304,7 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += string.Format("{0} renamed to {1}{2}", StripFolder(e.FullPath),
+            _verboseCommitMessage += string.Format("{1} renamed to {0}{2}", StripFolder(e.FullPath),
                 StripFolder(e.OldFullPath), Environment.NewLine);
             _changes.Add(e.FullPath);
         }
@@ -314,8 +313,9 @@ namespace GitAutoCommit.Core
         {
             if (e.Name.StartsWith(".git") || e.Name.EndsWith(".tmp"))
                 return;
-            _verboseCommitMessage += string.Format("{0} {1}{2}", StripFolder(e.FullPath), e.ChangeType.ToString(),
-                Environment.NewLine);
+            var line = string.Format("{1} {0}{2}", StripFolder(e.FullPath), e.ChangeType, Environment.NewLine);
+            // we don't want multiple same messages
+            if (!_verboseCommitMessage.EndsWith(line)) _verboseCommitMessage += line;
             _changes.Add(e.FullPath);
         }
 
