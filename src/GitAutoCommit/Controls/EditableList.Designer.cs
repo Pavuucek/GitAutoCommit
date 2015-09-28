@@ -40,7 +40,7 @@ namespace GitAutoCommit.Controls
             this.separator = new System.Windows.Forms.ToolStripSeparator();
             this.moveUpButton = new System.Windows.Forms.ToolStripButton();
             this.moveDownButton = new System.Windows.Forms.ToolStripButton();
-            this.list = new GitAutoCommit.NonFlickeringListView();
+            this.list = new NonFlickeringListView();
             this.column = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip.SuspendLayout();
             this.SuspendLayout();
@@ -162,7 +162,7 @@ namespace GitAutoCommit.Controls
 
         #endregion
 
-        private GitAutoCommit.NonFlickeringListView list;
+        private NonFlickeringListView list;
         private System.Windows.Forms.ColumnHeader column;
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripButton addButton;

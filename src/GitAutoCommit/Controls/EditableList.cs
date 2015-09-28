@@ -137,7 +137,7 @@ namespace GitAutoCommit.Controls
         private void deleteButton_Click(object sender, EventArgs e)
         {
             if (
-                MessageBox.Show(ParentForm, "Are you sure?", "git auto commit", MessageBoxButtons.YesNo,
+                MessageBox.Show(ParentForm, Resources.EditableList_deleteButton_Click_Are_you_sure, Resources.Program_Main_git_auto_commit, MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 var index = list.SelectedIndices[0];

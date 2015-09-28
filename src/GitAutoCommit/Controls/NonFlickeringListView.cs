@@ -35,11 +35,11 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace GitAutoCommit
+namespace GitAutoCommit.Controls
 {
     public class NonFlickeringListView : ListView
     {
-        private const int WM_LBUTTONDBLCLK = 0x203;
+        private const int WmLButtonDblClk = 0x203;
 
         /// <summary>
         ///     Disable the double click functionality
@@ -69,7 +69,7 @@ namespace GitAutoCommit
         protected override void WndProc(ref Message m)
         {
             //bypass the internal double click handling to disable auto-checking on double click...
-            if (DisableDoubleClick && m.Msg == WM_LBUTTONDBLCLK)
+            if (DisableDoubleClick && m.Msg == WmLButtonDblClk)
             {
                 OnMouseDoubleClick(new MouseEventArgs(MouseButtons, 1, MousePosition.X, MousePosition.Y, 0));
                 return;
@@ -80,6 +80,7 @@ namespace GitAutoCommit
 
         #region Nested type: ListViewExtendedStyles
 
+        [Flags]
         private enum ListViewExtendedStyles
         {
             /// <summary>

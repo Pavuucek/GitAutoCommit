@@ -98,6 +98,15 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Are you sure?.
+        /// </summary>
+        internal static string EditableList_deleteButton_Click_Are_you_sure {
+            get {
+                return ResourceManager.GetString("EditableList_deleteButton_Click_Are_you_sure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný add task.
         /// </summary>
         internal static string EditTaskForm_Bind_add_task {

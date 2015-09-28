@@ -202,4 +202,7 @@
   <data name="AutoCommitHandler__timer_Elapsed_Committing_changes" xml:space="preserve">
     <value>Committing changes to {0}</value>
   </data>
+  <data name="EditableList_deleteButton_Click_Are_you_sure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
 </root>
