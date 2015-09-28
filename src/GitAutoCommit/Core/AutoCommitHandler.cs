@@ -37,6 +37,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Timers;
+using Microsoft.Win32;
 
 namespace GitAutoCommit.Core
 {
@@ -154,6 +155,123 @@ namespace GitAutoCommit.Core
             }
         }
 
+        private static readonly string GitExeName = Environment.OSVersion.Platform == PlatformID.Unix
+            ? "git"
+            : "git.exe";
+
+
+        /// <summary>
+        ///     Gets a value indicating whether OS is 64bit.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if [is64 bit]; otherwise, <c>false</c>.
+        /// </value>
+        private static bool Is64Bit
+        {
+            get
+            {
+                return IntPtr.Size == 8 ||
+                       !String.IsNullOrEmpty(Environment.GetEnvironmentVariable("PROCESSOR_ARCHITEW6432"));
+            }
+        }
+
+        /// <summary>
+        ///     Gets Program Files directory
+        /// </summary>
+        /// <returns>Program Files or Program Files (x86) directory</returns>
+        private static string ProgramFilesX86()
+        {
+            if (Is64Bit)
+            {
+                return Environment.GetEnvironmentVariable("ProgramFiles(x86)");
+            }
+            return Environment.GetEnvironmentVariable("ProgramFiles");
+        }
+
+        /// <summary>
+        ///     Finds the git binary.
+        /// </summary>
+        /// <returns></returns>
+        private static string FindGitBinary()
+        {
+            string git = null;
+            RegistryKey key;
+
+            // Try the PATH environment variable
+
+            string pathEnv = Environment.GetEnvironmentVariable("PATH");
+            if (pathEnv != null)
+                foreach (string dir in pathEnv.Split(Path.PathSeparator))
+                {
+                    string sdir = dir;
+                    if (sdir.StartsWith("\"") && sdir.EndsWith("\""))
+                    {
+                        // Strip quotes (no Path.PathSeparator supported in quoted directories though)
+                        sdir = sdir.Substring(1, sdir.Length - 2);
+                    }
+                    git = Path.Combine(sdir, GitExeName);
+                    if (File.Exists(git)) break;
+                }
+            if (!File.Exists(git)) git = null;
+
+
+            // Read registry uninstaller key
+            if (git == null)
+            {
+                key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1");
+                if (key != null)
+                {
+                    object loc = key.GetValue("InstallLocation");
+                    if (loc is string)
+                    {
+                        git = Path.Combine((string)loc, Path.Combine("bin", GitExeName));
+                        if (!File.Exists(git)) git = null;
+                    }
+                }
+            }
+
+
+            // Try 64-bit registry key
+            if (git == null && Is64Bit)
+            {
+                key =
+                    Registry.LocalMachine.OpenSubKey(
+                        @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Git_is1");
+                if (key != null)
+                {
+                    object loc = key.GetValue("InstallLocation");
+                    if (loc is string)
+                    {
+                        git = Path.Combine((string)loc, Path.Combine("bin", GitExeName));
+                        if (!File.Exists(git)) git = null;
+                    }
+                }
+            }
+
+            // Search program files directory
+            if (git == null)
+            {
+                foreach (
+                    string dir in
+                        Directory.GetDirectories(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                            "git*"))
+                {
+                    git = Path.Combine(dir, Path.Combine("bin", GitExeName));
+                    if (!File.Exists(git)) git = null;
+                }
+            }
+
+            // Try 32-bit program files directory
+            if (git != null || !Is64Bit) return git;
+            foreach (string dir in Directory.GetDirectories(ProgramFilesX86(), "git*"))
+            {
+                git = Path.Combine(dir, Path.Combine("bin", GitExeName));
+                if (!File.Exists(git)) git = null;
+            }
+
+            return git;
+        }
+
         private string StripFolder(string fullPath)
         {
             fullPath = fullPath.Replace(_folder, string.Empty);
@@ -163,7 +281,7 @@ namespace GitAutoCommit.Core
 
         private void RunGit(string arguments, string pipeIn = null)
         {
-            var start = new ProcessStartInfo("git.exe", arguments)
+            var start = new ProcessStartInfo(FindGitBinary(), arguments)
             {
                 WorkingDirectory = _folder,
                 CreateNoWindow = true,
