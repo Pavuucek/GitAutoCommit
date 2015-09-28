@@ -39,7 +39,7 @@ namespace GitAutoCommit.Forms
 {
     public partial class MainForm : HeadingForm
     {
-        private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+        private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         private readonly GacApplication _application;
 
@@ -56,6 +56,7 @@ namespace GitAutoCommit.Forms
             list.ListChanged += ListOnChange;
 
             versionLabel.Text = Version;
+            versionLabel.Left = pictureBox1.Left - 1-versionLabel.Width;
         }
 
         private void ListOnChange(object sender, EventArgs e)

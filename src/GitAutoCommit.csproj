@@ -39,7 +39,7 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>..\icon\icon_16.ico</ApplicationIcon>
+    <ApplicationIcon>..\icon\icon_128_multisize.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>GitAutoCommit.Program</StartupObject>
@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    
     <Compile Include="Controls\AutoCommitList.cs">
       <SubType>UserControl</SubType>
     </Compile>

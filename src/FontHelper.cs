@@ -67,22 +67,22 @@ namespace GitAutoCommit
         /// <summary>
         ///     Our default gui font
         /// </summary>
-        public static Font DefaultGuiFont { get; }
+        public static Font DefaultGuiFont { get; set; }
 
         /// <summary>
         ///     Heading gui font
         /// </summary>
-        public static Font HeadingGuiFont { get; }
+        public static Font HeadingGuiFont { get; set; }
 
         /// <summary>
         ///     Heading gui font
         /// </summary>
-        public static Font SubHeadingGuiFont { get; }
+        public static Font SubHeadingGuiFont { get; set; }
 
         /// <summary>
         ///     Monospace font
         /// </summary>
-        public static Font MonospaceFont { get; }
+        public static Font MonospaceFont { get; set; }
 
         /// <summary>
         ///     Given a list of fonts, returns the first one found
