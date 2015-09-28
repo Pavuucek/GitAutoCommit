@@ -1,4 +1,5 @@
 ﻿#region License
+
 /*
 Copyright (c) 2011 Gareth Lennox (garethl@dwakn.com)
 All rights reserved.
@@ -26,33 +27,34 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 */
+
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Windows.Forms;
 using GitAutoCommit.Core;
 using GitAutoCommit.Forms;
 
 namespace GitAutoCommit
 {
-	internal static class Program
-	{
-		private static readonly List<AutoCommitHandler> Handlers = new List<AutoCommitHandler>();
+    internal static class Program
+    {
+        private static readonly List<AutoCommitHandler> Handlers = new List<AutoCommitHandler>();
 #if DEBUG
-	    private static DebugWindow dw;
+        private static DebugWindow dw;
 #endif
 
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
         [STAThread]
-		private static void Main(string[] args)
-		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
+        private static void Main(string[] args)
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 #if DEBUG
             dw = new DebugWindow();
             dw.Show();
@@ -66,7 +68,8 @@ namespace GitAutoCommit
             {
                 int interval;
                 string error = null;
-                if (args.Length < 2 || !int.TryParse(args[0], out interval) || !AllDirectoriesExist(args.Skip(1), out error))
+                if (args.Length < 2 || !int.TryParse(args[0], out interval) ||
+                    !AllDirectoriesExist(args.Skip(1), out error))
                 {
                     if (string.IsNullOrEmpty(error))
                         error = "Invalid command line arguments";
@@ -84,30 +87,30 @@ namespace GitAutoCommit
             }
 
             var icon = new NotifyIconController(application);
-			icon.Show();
+            icon.Show();
 
-			Application.Run();
-		}
+            Application.Run();
+        }
 
-		private static bool AllDirectoriesExist(IEnumerable<string> directories, out string error)
-		{
-			foreach (var directory in directories)
-			{
-				if (!Directory.Exists(directory))
-				{
-					error = "Directory {0} doesn't exist";
-					return false;
-				}
+        private static bool AllDirectoriesExist(IEnumerable<string> directories, out string error)
+        {
+            foreach (var directory in directories)
+            {
+                if (!Directory.Exists(directory))
+                {
+                    error = "Directory {0} doesn't exist";
+                    return false;
+                }
 
-				if (!Directory.Exists(Path.Combine(directory, ".git")))
-				{
-					error = "Directory {0} is not a git repository";
-					return false;
-				}
-			}
+                if (!Directory.Exists(Path.Combine(directory, ".git")))
+                {
+                    error = "Directory {0} is not a git repository";
+                    return false;
+                }
+            }
 
-			error = null;
-			return true;
-		}
-	}
+            error = null;
+            return true;
+        }
+    }
 }
