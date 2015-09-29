@@ -179,7 +179,8 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Automatic commit.
+        ///   Vyhledá lokalizovaný řetězec podobný Automatic commit:
+        ///{DETAILS}.
         /// </summary>
         internal static string EditTaskForm_Bind_Automatic_commit {
             get {

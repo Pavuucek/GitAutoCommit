@@ -179,7 +179,8 @@
     <value>add task</value>
   </data>
   <data name="EditTaskForm_Bind_Automatic_commit" xml:space="preserve">
-    <value>Automatic commit</value>
+    <value>Automatic commit:
+{DETAILS}</value>
   </data>
   <data name="EditTaskForm_FormIsValid_Please_enter_a_valid_folder" xml:space="preserve">
     <value>Please enter a valid folder</value>
