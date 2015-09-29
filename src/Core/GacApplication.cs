@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace GitAutoCommit.Core
@@ -45,10 +46,32 @@ namespace GitAutoCommit.Core
     [XmlType("git-auto-commit-settings")]
     public class GacApplication
     {
+        /// <summary>
+        ///     The settings directory
+        /// </summary>
         private static readonly string SettingsDirectory =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "git-auto-commit");
 
+        /// <summary>
+        ///     The settings directory if running in portable mode
+        /// </summary>
+        private static readonly string PortableSettingsDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+
+        /// <summary>
+        ///     The settings file if running in portable mode
+        /// </summary>
+        private static readonly string PortableSettingsFile = Path.Combine(PortableSettingsDirectory, "settings.xml");
+
+        /// <summary>
+        ///     The settings file
+        /// </summary>
         private static readonly string SettingsFile = Path.Combine(SettingsDirectory, "settings.xml");
+
+        /// <summary>
+        ///     Is application in portable mode?
+        /// </summary>
+        [XmlIgnore]
+        public bool IsPortableMode;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GacApplication" /> class.
@@ -61,36 +84,45 @@ namespace GitAutoCommit.Core
         ///     Initializes a new instance of the <see cref="GacApplication" /> class.
         /// </summary>
         /// <param name="startup">if set to <c>true</c> [startup].</param>
+        /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
+        /// <exception cref="UnauthorizedAccessException">Access to <paramref name="fileName" /> is denied. </exception>
         public GacApplication(bool startup)
         {
-            if (Directory.Exists(SettingsDirectory) && File.Exists(SettingsFile))
+            if (File.Exists(PortableSettingsFile)) IsPortableMode = true; // enable portable mode
+            var settingsFile = IsPortableMode ? PortableSettingsFile : SettingsFile;
+            var settingsDirectory = IsPortableMode ? PortableSettingsDirectory : SettingsDirectory;
+            if (Directory.Exists(settingsDirectory) && File.Exists(settingsFile))
             {
-                var serializer = new XmlSerializer(typeof (GacApplication));
-
-                try
+                if (new FileInfo(settingsFile).Length > 0)
                 {
-                    using (var file = new FileStream(SettingsFile, FileMode.Open, FileAccess.Read))
-                    {
-                        Tasks = ((GacApplication) serializer.Deserialize(file)).Tasks;
-                        Tasks.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
-                    }
+                    var serializer = new XmlSerializer(typeof (GacApplication));
 
-                    foreach (var task in Tasks)
+                    try
                     {
-                        try
+                        using (var file = new FileStream(settingsFile, FileMode.Open, FileAccess.Read))
                         {
-                            task.Handler.OnConfigurationChange();
+                            Tasks = ((GacApplication) serializer.Deserialize(file)).Tasks;
+                            Tasks.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
                         }
-                        catch (Exception)
+
+                        foreach (var task in Tasks)
                         {
+                            try
+                            {
+                                task.Handler.OnConfigurationChange();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.ToString());
+                            }
                         }
                     }
-                }
-                catch (Exception)
-                {
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
                 }
             }
-
             if (Tasks == null)
                 Tasks = new List<AutoCommitTask>();
         }
@@ -142,14 +174,17 @@ namespace GitAutoCommit.Core
         /// <exception cref="DriveNotFoundException">An invalid drive was specified. </exception>
         public void Save()
         {
+            var settingsFile = IsPortableMode ? PortableSettingsFile : SettingsFile;
+            var settingsDirectory = IsPortableMode ? PortableSettingsDirectory : SettingsDirectory;
+
             Tasks.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));
 
             var serializer = new XmlSerializer(typeof (GacApplication));
 
-            if (!Directory.Exists(SettingsDirectory))
-                Directory.CreateDirectory(SettingsDirectory);
+            if (!Directory.Exists(settingsDirectory))
+                Directory.CreateDirectory(settingsDirectory);
 
-            var tempFile = SettingsFile + ".temp";
+            var tempFile = settingsFile + ".temp";
 
             using (var file = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
             {
@@ -158,13 +193,13 @@ namespace GitAutoCommit.Core
                 serializer.Serialize(file, this, namespaces);
             }
 
-            if (File.Exists(SettingsFile))
+            if (File.Exists(settingsFile))
             {
-                File.Replace(tempFile, SettingsFile, null, true);
+                File.Replace(tempFile, settingsFile, null, true);
             }
             else
             {
-                File.Move(tempFile, SettingsFile);
+                File.Move(tempFile, settingsFile);
             }
         }
     }
