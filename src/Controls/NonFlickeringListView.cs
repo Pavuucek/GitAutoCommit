@@ -37,6 +37,9 @@ using System.Windows.Forms;
 
 namespace GitAutoCommit.Controls
 {
+    /// <summary>
+    ///     Non flickering list view class
+    /// </summary>
     public class NonFlickeringListView : ListView
     {
         private const int WmLButtonDblClk = 0x203;
@@ -50,6 +53,10 @@ namespace GitAutoCommit.Controls
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SendMessage(IntPtr handle, int messg, int wparam, int lparam);
 
+        /// <summary>
+        ///     Raises the <see cref="E:HandleCreated" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);

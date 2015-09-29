@@ -34,15 +34,35 @@ using GitAutoCommit.Properties;
 
 namespace GitAutoCommit.Support
 {
+
+    /// <summary>
+    /// Class for interval in which checking for changes occurs
+    /// </summary>
     public class Interval
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Interval"/> class.
+        /// </summary>
+        /// <param name="seconds">The seconds.</param>
         public Interval(int seconds)
         {
             Seconds = seconds;
         }
 
+        /// <summary>
+        /// Gets or sets the seconds.
+        /// </summary>
+        /// <value>
+        /// The seconds.
+        /// </value>
         public int Seconds { get; set; }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             if (Seconds > 60*60)

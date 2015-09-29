@@ -37,6 +37,9 @@ using GitAutoCommit.Properties;
 
 namespace GitAutoCommit
 {
+    /// <summary>
+    ///     Controller for icon in tray area
+    /// </summary>
     public class NotifyIconController
     {
         private readonly GacApplication _application;
@@ -44,6 +47,10 @@ namespace GitAutoCommit
 
         private MainForm _mainForm;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="NotifyIconController" /> class.
+        /// </summary>
+        /// <param name="application">The application.</param>
         public NotifyIconController(GacApplication application)
         {
             _application = application;
@@ -52,8 +59,10 @@ namespace GitAutoCommit
             contextMenu.Items.AddRange(
                 new ToolStripItem[]
                 {
-                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Configuration, null, (s, e) => ShowMainForm()),
-                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Exit, null, (s, e) => Close())
+                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Configuration, null,
+                        (s, e) => ShowMainForm()),
+                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Exit, null,
+                        (s, e) => Close())
                 }
                 );
 
@@ -69,6 +78,9 @@ namespace GitAutoCommit
             }
         }
 
+        /// <summary>
+        ///     Shows the main form.
+        /// </summary>
         private void ShowMainForm()
         {
             if (_mainForm == null)
@@ -80,11 +92,17 @@ namespace GitAutoCommit
             _mainForm.Show();
         }
 
+        /// <summary>
+        ///     Shows this instance.
+        /// </summary>
         public void Show()
         {
             _notifyIcon.Visible = true;
         }
 
+        /// <summary>
+        ///     Closes this instance.
+        /// </summary>
         public void Close()
         {
             _notifyIcon.Visible = false;

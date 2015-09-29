@@ -41,8 +41,14 @@ using Microsoft.Win32;
 
 namespace GitAutoCommit.Core
 {
+    /// <summary>
+    ///     Auto Commit handler class
+    /// </summary>
     public class AutoCommitHandler : IDisposable
     {
+        /// <summary>
+        ///     The git executable name
+        /// </summary>
         private static readonly string GitExeName = Environment.OSVersion.Platform == PlatformID.Unix
             ? "git"
             : "git.exe";
@@ -53,11 +59,22 @@ namespace GitAutoCommit.Core
         private string _verboseCommitMessage = string.Empty;
         private FileSystemWatcher _watcher;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AutoCommitHandler" /> class.
+        /// </summary>
         public AutoCommitHandler()
         {
         }
 
-        /// <exception cref="FileNotFoundException">The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" /> could not be found.</exception>
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AutoCommitHandler" /> class.
+        /// </summary>
+        /// <param name="intervalSeconds">The interval seconds.</param>
+        /// <param name="folder">The folder.</param>
+        /// <exception cref="FileNotFoundException">
+        ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
+        ///     could not be found.
+        /// </exception>
         public AutoCommitHandler(int intervalSeconds, string folder)
         {
             _intervalSeconds = intervalSeconds;
@@ -66,8 +83,20 @@ namespace GitAutoCommit.Core
             OnConfigurationChange();
         }
 
+        /// <summary>
+        ///     Gets or sets the folder.
+        /// </summary>
+        /// <value>
+        ///     The folder.
+        /// </value>
         public string Folder { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the interval.
+        /// </summary>
+        /// <value>
+        ///     The interval.
+        /// </value>
         public int Interval
         {
             get { return _intervalSeconds; }
@@ -80,6 +109,12 @@ namespace GitAutoCommit.Core
             }
         }
 
+        /// <summary>
+        ///     Gets or sets the commit message.
+        /// </summary>
+        /// <value>
+        ///     The commit message.
+        /// </value>
         public string CommitMessage { get; set; }
 
 
@@ -104,7 +139,10 @@ namespace GitAutoCommit.Core
         ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         /// <filterpriority>2</filterpriority>
-        /// <exception cref="FileNotFoundException">The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" /> could not be found.</exception>
+        /// <exception cref="FileNotFoundException">
+        ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
+        ///     could not be found.
+        /// </exception>
         public void Dispose()
         {
             if (_watcher != null)
@@ -123,7 +161,13 @@ namespace GitAutoCommit.Core
 
         #endregion
 
-        /// <exception cref="FileNotFoundException">The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" /> could not be found.</exception>
+        /// <summary>
+        ///     Called when [configuration change].
+        /// </summary>
+        /// <exception cref="FileNotFoundException">
+        ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
+        ///     could not be found.
+        /// </exception>
         public void OnConfigurationChange()
         {
             if (string.IsNullOrEmpty(Folder) || Interval <= 0)
@@ -134,7 +178,8 @@ namespace GitAutoCommit.Core
             // first run git to add untracked changes
             Console.WriteLine(Resources.AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes, Folder);
             RunGit("add .");
-            RunGit("commit --file=-", Resources.AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes_commit);
+            RunGit("commit --file=-",
+                Resources.AutoCommitHandler_OnConfigurationChange_Synchronizing_untracked_changes_commit);
             //then proceed...
 
             _watcher = new FileSystemWatcher(Folder) {IncludeSubdirectories = true};
@@ -150,6 +195,11 @@ namespace GitAutoCommit.Core
         }
 
 
+        /// <summary>
+        ///     Handles the Elapsed event of the _timer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ElapsedEventArgs" /> instance containing the event data.</param>
         private void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if (_changes.Count == 0)
@@ -343,7 +393,17 @@ namespace GitAutoCommit.Core
             _changes.Add(e.FullPath);
         }
 
-        /// <exception cref="FileNotFoundException">The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" /> could not be found.</exception>
+        /// <summary>
+        ///     Sets the properties.
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <param name="commitMessage">The commit message.</param>
+        /// <param name="intervalSeconds">The interval seconds.</param>
+        /// <param name="fireConfigurationChange">if set to <c>true</c> [fire configuration change].</param>
+        /// <exception cref="FileNotFoundException">
+        ///     The directory specified in <see cref="P:System.IO.FileSystemWatcher.Path" />
+        ///     could not be found.
+        /// </exception>
         public void SetProperties(string folder, string commitMessage, int intervalSeconds,
             bool fireConfigurationChange = false)
         {

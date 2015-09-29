@@ -40,6 +40,9 @@ using GitAutoCommit.Support;
 
 namespace GitAutoCommit.Forms
 {
+    /// <summary>
+    ///     Form for editing tasks
+    /// </summary>
     public partial class EditTaskForm : HeadingForm
     {
         private static readonly Interval[] Intervals =
@@ -58,6 +61,9 @@ namespace GitAutoCommit.Forms
             new Interval(60*60)
         };
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EditTaskForm" /> class.
+        /// </summary>
         public EditTaskForm()
         {
             InitializeComponent();
@@ -67,6 +73,12 @@ namespace GitAutoCommit.Forms
             intervalComboBox.Items.AddRange(Intervals);
         }
 
+        /// <summary>
+        ///     Edits the task.
+        /// </summary>
+        /// <param name="item">The item.</param>
+        /// <param name="owner">The owner.</param>
+        /// <returns></returns>
         public DialogResult EditTask(AutoCommitTask item, IWin32Window owner)
         {
             Bind(item);
@@ -118,7 +130,8 @@ namespace GitAutoCommit.Forms
         {
             if (folderTextBox.Text == "" || !Directory.Exists(folderTextBox.Text))
             {
-                MessageBox.Show(this, Resources.EditTaskForm_FormIsValid_Please_enter_a_valid_folder, Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK,
+                MessageBox.Show(this, Resources.EditTaskForm_FormIsValid_Please_enter_a_valid_folder,
+                    Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return false;
             }
@@ -126,7 +139,9 @@ namespace GitAutoCommit.Forms
             //check if it is a git repository
             if (!Directory.Exists(Path.Combine(folderTextBox.Text, ".git")))
             {
-                MessageBox.Show(this, Resources.EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository, Resources.Program_Main_git_auto_commit,
+                MessageBox.Show(this,
+                    Resources.EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository,
+                    Resources.Program_Main_git_auto_commit,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

@@ -30,19 +30,34 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using GitAutoCommit.Core;
 
 namespace GitAutoCommit.Controls
 {
+    /// <summary>
+    ///     Auto commit list
+    /// </summary>
     public class AutoCommitList : EditableList<AutoCommitTask>
     {
+        /// <summary>
+        ///     Binds the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <exception cref="Exception">A delegate callback throws an exception.</exception>
         public void Bind(IList<AutoCommitTask> items)
         {
             Bind(items, CreateItem);
         }
 
+
+        /// <summary>
+        ///     Creates the item.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <returns></returns>
         private ListViewItem CreateItem(AutoCommitTask task)
         {
             return new ListViewItem

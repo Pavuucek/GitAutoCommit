@@ -37,20 +37,34 @@ using System.Windows.Forms;
 
 namespace GitAutoCommit.Support
 {
+    /// <summary>
+    /// DebugWindow helper class
+    /// </summary>
     public class DebugWindowWriter : TextWriter
     {
         private readonly TextBox _textbox;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DebugWindowWriter"/> class.
+        /// </summary>
+        /// <param name="textbox">The textbox.</param>
         public DebugWindowWriter(TextBox textbox)
         {
             _textbox = textbox;
         }
 
+        /// <summary>
+        /// When overridden in a derived class, returns the character encoding in which the output is written.
+        /// </summary>
         public override Encoding Encoding
         {
             get { return Encoding.ASCII; }
         }
 
+        /// <summary>
+        /// Writes a string to the text string or stream.
+        /// </summary>
+        /// <param name="value">The string to write.</param>
         public override void Write(string value)
         {
             if (_textbox.InvokeRequired)
@@ -63,6 +77,10 @@ namespace GitAutoCommit.Support
             }
         }
 
+        /// <summary>
+        /// Writes a string followed by a line terminator to the text string or stream.
+        /// </summary>
+        /// <param name="value">The string to write. If <paramref name="value" /> is null, only the line terminator is written.</param>
         public override void WriteLine(string value)
         {
             if (_textbox.InvokeRequired)

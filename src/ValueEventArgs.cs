@@ -34,13 +34,26 @@ using System;
 
 namespace GitAutoCommit
 {
+    /// <summary>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ValueEventArgs<T> : EventArgs
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ValueEventArgs{T}" /> class.
+        /// </summary>
+        /// <param name="value">The value.</param>
         public ValueEventArgs(T value)
         {
             Value = value;
         }
 
+        /// <summary>
+        ///     Gets or sets the value.
+        /// </summary>
+        /// <value>
+        ///     The value.
+        /// </value>
         public T Value { get; set; }
     }
 }

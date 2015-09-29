@@ -37,12 +37,19 @@ using GitAutoCommit.Properties;
 
 namespace GitAutoCommit.Controls
 {
+    /// <summary>
+    ///     Editable list class
+    /// </summary>
+    /// <typeparam name="T">type</typeparam>
     public partial class EditableList<T> : UserControl where T : class
     {
         private Func<T, ListViewItem> _createItemCallback;
         private IList<T> _items;
         private bool _sortable = true;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EditableList{T}" /> class.
+        /// </summary>
         public EditableList()
         {
             InitializeComponent();
@@ -63,6 +70,12 @@ namespace GitAutoCommit.Controls
             get { return imageList; }
         }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this <see cref="EditableList{T}" /> is sortable.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if sortable; otherwise, <c>false</c>.
+        /// </value>
         public bool Sortable
         {
             get { return _sortable; }
@@ -76,10 +89,27 @@ namespace GitAutoCommit.Controls
             }
         }
 
+        /// <summary>
+        ///     Occurs when [item add].
+        /// </summary>
         public event EventHandler<ValueEventArgs<T>> ItemAdd;
+
+        /// <summary>
+        ///     Occurs when [item edit].
+        /// </summary>
         public event EventHandler<ValueEventArgs<T>> ItemEdit;
+
+        /// <summary>
+        ///     Occurs when [list changed].
+        /// </summary>
         public event EventHandler ListChanged;
 
+        /// <summary>
+        ///     Binds the specified items.
+        /// </summary>
+        /// <param name="items">The items.</param>
+        /// <param name="createItemCallback">The create item callback.</param>
+        /// <exception cref="Exception">A delegate callback throws an exception.</exception>
         public void Bind(IList<T> items, Func<T, ListViewItem> createItemCallback)
         {
             list.SmallImageList = imageList.Images.Count == 0 ? null : imageList;
@@ -137,7 +167,8 @@ namespace GitAutoCommit.Controls
         private void deleteButton_Click(object sender, EventArgs e)
         {
             if (
-                MessageBox.Show(ParentForm, Resources.EditableList_deleteButton_Click_Are_you_sure, Resources.Program_Main_git_auto_commit, MessageBoxButtons.YesNo,
+                MessageBox.Show(ParentForm, Resources.EditableList_deleteButton_Click_Are_you_sure,
+                    Resources.Program_Main_git_auto_commit, MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 var index = list.SelectedIndices[0];

@@ -37,12 +37,19 @@ using GitAutoCommit.Core;
 
 namespace GitAutoCommit.Forms
 {
+    /// <summary>
+    ///     Main Form class
+    /// </summary>
     public partial class MainForm : HeadingForm
     {
         private static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         private readonly GacApplication _application;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MainForm" /> class.
+        /// </summary>
+        /// <param name="application">The application.</param>
         public MainForm(GacApplication application)
         {
             _application = application;
@@ -56,7 +63,7 @@ namespace GitAutoCommit.Forms
             list.ListChanged += ListOnChange;
 
             versionLabel.Text = Version;
-            versionLabel.Left = pictureBox1.Left - 1-versionLabel.Width;
+            versionLabel.Left = pictureBox1.Left - 1 - versionLabel.Width;
         }
 
         private void ListOnChange(object sender, EventArgs e)

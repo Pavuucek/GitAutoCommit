@@ -36,13 +36,24 @@ using GitAutoCommit.Support;
 
 namespace GitAutoCommit.Forms
 {
+    /// <summary>
+    ///     DebugWindow form
+    /// </summary>
     public partial class DebugWindow : Form
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DebugWindow" /> class.
+        /// </summary>
         public DebugWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        ///     Handles the Load event of the DebugWindow control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs" /> instance containing the event data.</param>
         private void DebugWindow_Load(object sender, EventArgs e)
         {
             Console.SetOut(new DebugWindowWriter(textBoxOutput));

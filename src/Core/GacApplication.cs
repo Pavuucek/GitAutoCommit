@@ -34,10 +34,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Xml.Serialization;
 
 namespace GitAutoCommit.Core
 {
+    /// <summary>
+    ///     GitAutoCommitApplication class
+    /// </summary>
     [XmlType("git-auto-commit-settings")]
     public class GacApplication
     {
@@ -46,10 +50,17 @@ namespace GitAutoCommit.Core
 
         private static readonly string SettingsFile = Path.Combine(SettingsDirectory, "settings.xml");
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GacApplication" /> class.
+        /// </summary>
         public GacApplication()
         {
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GacApplication" /> class.
+        /// </summary>
+        /// <param name="startup">if set to <c>true</c> [startup].</param>
         public GacApplication(bool startup)
         {
             if (Directory.Exists(SettingsDirectory) && File.Exists(SettingsFile))
@@ -84,18 +95,51 @@ namespace GitAutoCommit.Core
                 Tasks = new List<AutoCommitTask>();
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GacApplication" /> class.
+        /// </summary>
+        /// <param name="isCommandLineDriven">if set to <c>true</c> [is command line driven].</param>
+        /// <param name="tasks">The tasks.</param>
         public GacApplication(bool isCommandLineDriven, IEnumerable<AutoCommitTask> tasks)
         {
             IsCommandLineDriven = isCommandLineDriven;
             Tasks = tasks.ToList();
         }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this instance is command line driven.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance is command line driven; otherwise, <c>false</c>.
+        /// </value>
         [XmlIgnore]
         public bool IsCommandLineDriven { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the tasks.
+        /// </summary>
+        /// <value>
+        ///     The tasks.
+        /// </value>
         [XmlElement("task")]
         public List<AutoCommitTask> Tasks { get; set; }
 
+        /// <summary>
+        ///     Saves settings to xml file
+        /// </summary>
+        /// <exception cref="IOException">
+        ///     The directory specified by <paramref name="path" /> is a file .-or-The network name is
+        ///     not known.
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">The caller does not have the required permission. </exception>
+        /// <exception cref="DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive). </exception>
+        /// <exception cref="FileNotFoundException">
+        ///     The file cannot be found, such as when <paramref name="mode" /> is
+        ///     FileMode.Truncate or FileMode.Open, and the file specified by <paramref name="path" /> does not exist. The file
+        ///     must already exist in these modes.
+        /// </exception>
+        /// <exception cref="SecurityException">The caller does not have the required permission. </exception>
+        /// <exception cref="DriveNotFoundException">An invalid drive was specified. </exception>
         public void Save()
         {
             Tasks.Sort((x, y) => string.Compare(x.Name, y.Name, StringComparison.Ordinal));

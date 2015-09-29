@@ -36,8 +36,14 @@ using GitAutoCommit.Properties;
 
 namespace GitAutoCommit.Forms
 {
+    /// <summary>
+    ///     Base form prototype
+    /// </summary>
     public partial class BaseForm : Form
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BaseForm" /> class.
+        /// </summary>
         public BaseForm()
         {
             InitializeComponent();
@@ -49,6 +55,12 @@ namespace GitAutoCommit.Forms
         }
 
 
+        /// <summary>
+        ///     Gets a value indicating whether this instance is runtime.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if this instance is runtime; otherwise, <c>false</c>.
+        /// </value>
         protected bool IsRuntime
         {
             get { return LicenseManager.UsageMode == LicenseUsageMode.Runtime; }

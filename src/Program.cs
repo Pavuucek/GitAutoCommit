@@ -41,6 +41,9 @@ using GitAutoCommit.Properties;
 
 namespace GitAutoCommit
 {
+    /// <summary>
+    ///     Main program class
+    /// </summary>
     internal static class Program
     {
         //private static readonly List<AutoCommitHandler> Handlers = new List<AutoCommitHandler>();
@@ -78,7 +81,8 @@ namespace GitAutoCommit
                     error = error + "\r\n\r\n" +
                             Resources.Program_Main_usage;
 
-                    MessageBox.Show(error, Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(error, Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                     Environment.Exit(1);
                     return;
                 }
@@ -93,6 +97,12 @@ namespace GitAutoCommit
             Application.Run();
         }
 
+        /// <summary>
+        ///     Checks if all the directories exist.
+        /// </summary>
+        /// <param name="directories">The directories.</param>
+        /// <param name="error">The error.</param>
+        /// <returns></returns>
         private static bool AllDirectoriesExist(IEnumerable<string> directories, out string error)
         {
             foreach (var directory in directories)
@@ -105,7 +115,8 @@ namespace GitAutoCommit
 
                 if (!Directory.Exists(Path.Combine(directory, ".git")))
                 {
-                    error = string.Format(Resources.Program_AllDirectoriesExist_Directory_is_not_a_git_repository, directory);
+                    error = string.Format(Resources.Program_AllDirectoriesExist_Directory_is_not_a_git_repository,
+                        directory);
                     return false;
                 }
             }

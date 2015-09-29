@@ -32,8 +32,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace GitAutoCommit.Forms
 {
+    /// <summary>
+    ///     Heading form class
+    /// </summary>
     public partial class HeadingForm : BaseForm
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="HeadingForm" /> class.
+        /// </summary>
         public HeadingForm()
         {
             InitializeComponent();
@@ -41,6 +47,12 @@ namespace GitAutoCommit.Forms
             headingLabel.Font = FontHelper.HeadingGuiFont;
         }
 
+        /// <summary>
+        ///     Gets or sets the text.
+        /// </summary>
+        /// <value>
+        ///     The text.
+        /// </value>
         public override string Text
         {
             get { return headingLabel == null ? base.Text : headingLabel.Text; }
