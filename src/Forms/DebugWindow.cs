@@ -32,6 +32,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 using System.Windows.Forms;
+using GitAutoCommit.Properties;
 using GitAutoCommit.Support;
 
 namespace GitAutoCommit.Forms
@@ -47,6 +48,7 @@ namespace GitAutoCommit.Forms
         public DebugWindow()
         {
             InitializeComponent();
+            LoadLanguage();
         }
 
         /// <summary>
@@ -57,6 +59,14 @@ namespace GitAutoCommit.Forms
         private void DebugWindow_Load(object sender, EventArgs e)
         {
             Console.SetOut(new DebugWindowWriter(textBoxOutput));
+        }
+
+        /// <summary>
+        /// Loads language constants from resources.
+        /// </summary>
+        private void LoadLanguage()
+        {
+            Text = Resources.DebugWindow_Caption;
         }
     }
 }

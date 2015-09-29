@@ -53,6 +53,7 @@ namespace GitAutoCommit.Controls
         public EditableList()
         {
             InitializeComponent();
+            LoadLanguage();
 
             list.Resize += delegate { OnListResize(); };
 
@@ -87,6 +88,16 @@ namespace GitAutoCommit.Controls
                 moveDownButton.Visible = _sortable;
                 moveUpButton.Visible = _sortable;
             }
+        }
+
+        /// <summary>
+        ///     Loads the language constants from resources.
+        /// </summary>
+        private void LoadLanguage()
+        {
+            addButton.Text = Resources.EditableList_AddButton;
+            editButton.Text = Resources.EditableList_EditButton;
+            deleteButton.Text = Resources.EditableList_DeleteButton;
         }
 
         /// <summary>
@@ -168,7 +179,7 @@ namespace GitAutoCommit.Controls
         {
             if (
                 MessageBox.Show(ParentForm, Resources.EditableList_deleteButton_Click_Are_you_sure,
-                    Resources.Program_Main_git_auto_commit, MessageBoxButtons.YesNo,
+                    Resources.AppName, MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 var index = list.SelectedIndices[0];

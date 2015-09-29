@@ -61,6 +61,15 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Git Auto-Commit.
+        /// </summary>
+        internal static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Committing changes to {0}.
         /// </summary>
         internal static string AutoCommitHandler__timer_Elapsed_Committing_changes {
@@ -88,6 +97,33 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný &amp;Cancel.
+        /// </summary>
+        internal static string ButtonCancel {
+            get {
+                return ResourceManager.GetString("ButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný &amp;Ok.
+        /// </summary>
+        internal static string ButtonOk {
+            get {
+                return ResourceManager.GetString("ButtonOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Debug Window.
+        /// </summary>
+        internal static string DebugWindow_Caption {
+            get {
+                return ResourceManager.GetString("DebugWindow_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap edit {
@@ -98,11 +134,38 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný &amp;Add.
+        /// </summary>
+        internal static string EditableList_AddButton {
+            get {
+                return ResourceManager.GetString("EditableList_AddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný &amp;Delete.
+        /// </summary>
+        internal static string EditableList_DeleteButton {
+            get {
+                return ResourceManager.GetString("EditableList_DeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Are you sure?.
         /// </summary>
         internal static string EditableList_deleteButton_Click_Are_you_sure {
             get {
                 return ResourceManager.GetString("EditableList_deleteButton_Click_Are_you_sure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný &amp;Edit.
+        /// </summary>
+        internal static string EditableList_EditButton {
+            get {
+                return ResourceManager.GetString("EditableList_EditButton", resourceCulture);
             }
         }
         
@@ -125,6 +188,33 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Edit Task.
+        /// </summary>
+        internal static string EditTaskForm_Caption {
+            get {
+                return ResourceManager.GetString("EditTaskForm_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Commit Message:.
+        /// </summary>
+        internal static string EditTaskForm_commitMessageLabel {
+            get {
+                return ResourceManager.GetString("EditTaskForm_commitMessageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Folder:.
+        /// </summary>
+        internal static string EditTaskForm_folderLabel {
+            get {
+                return ResourceManager.GetString("EditTaskForm_folderLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledá lokalizovaný řetězec podobný Please enter a valid folder.
         /// </summary>
         internal static string EditTaskForm_FormIsValid_Please_enter_a_valid_folder {
@@ -139,6 +229,24 @@ namespace GitAutoCommit.Properties {
         internal static string EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository {
             get {
                 return ResourceManager.GetString("EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Interval:.
+        /// </summary>
+        internal static string EditTaskForm_intervalLabel {
+            get {
+                return ResourceManager.GetString("EditTaskForm_intervalLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný Name:.
+        /// </summary>
+        internal static string EditTaskForm_nameLabel {
+            get {
+                return ResourceManager.GetString("EditTaskForm_nameLabel", resourceCulture);
             }
         }
         
@@ -227,12 +335,30 @@ namespace GitAutoCommit.Properties {
         }
         
         /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný tasks.
+        /// </summary>
+        internal static string MainForm_tasksLabel {
+            get {
+                return ResourceManager.GetString("MainForm_tasksLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap minus {
             get {
                 object obj = ResourceManager.GetObject("minus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledá lokalizovaný řetězec podobný &amp;About....
+        /// </summary>
+        internal static string NotifyIconController_NotifyIconController_About {
+            get {
+                return ResourceManager.GetString("NotifyIconController_NotifyIconController_About", resourceCulture);
             }
         }
         
@@ -251,15 +377,6 @@ namespace GitAutoCommit.Properties {
         internal static string NotifyIconController_NotifyIconController_Exit {
             get {
                 return ResourceManager.GetString("NotifyIconController_NotifyIconController_Exit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný Git auto commit.
-        /// </summary>
-        internal static string NotifyIconController_NotifyIconController_Git_auto_commit {
-            get {
-                return ResourceManager.GetString("NotifyIconController_NotifyIconController_Git_auto_commit", resourceCulture);
             }
         }
         
@@ -298,15 +415,6 @@ namespace GitAutoCommit.Properties {
         internal static string Program_AllDirectoriesExist_Directory_is_not_a_git_repository {
             get {
                 return ResourceManager.GetString("Program_AllDirectoriesExist_Directory_is_not_a_git_repository", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledá lokalizovaný řetězec podobný git-auto-commit.
-        /// </summary>
-        internal static string Program_Main_git_auto_commit {
-            get {
-                return ResourceManager.GetString("Program_Main_git_auto_commit", resourceCulture);
             }
         }
         

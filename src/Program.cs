@@ -81,7 +81,7 @@ namespace GitAutoCommit
                     error = error + "\r\n\r\n" +
                             Resources.Program_Main_usage;
 
-                    MessageBox.Show(error, Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK,
+                    MessageBox.Show(error, Resources.AppName, MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     Environment.Exit(1);
                     return;

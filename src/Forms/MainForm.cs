@@ -34,6 +34,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 using GitAutoCommit.Core;
+using GitAutoCommit.Properties;
 
 namespace GitAutoCommit.Forms
 {
@@ -50,11 +51,12 @@ namespace GitAutoCommit.Forms
         ///     Initializes a new instance of the <see cref="MainForm" /> class.
         /// </summary>
         /// <param name="application">The application.</param>
+        /// <exception cref="Exception">A delegate callback throws an exception.</exception>
         public MainForm(GacApplication application)
         {
             _application = application;
             InitializeComponent();
-
+            LoadLanguage();
             tasksLabel.Font = FontHelper.SubHeadingGuiFont;
 
             list.Bind(application.Tasks);
@@ -64,6 +66,15 @@ namespace GitAutoCommit.Forms
 
             versionLabel.Text = Version;
             versionLabel.Left = pictureBox1.Left - 1 - versionLabel.Width;
+        }
+
+        /// <summary>
+        ///     Loads language constants from resources.
+        /// </summary>
+        private void LoadLanguage()
+        {
+            Text = Resources.AppName;
+            tasksLabel.Text = Resources.MainForm_tasksLabel;
         }
 
         private void ListOnChange(object sender, EventArgs e)

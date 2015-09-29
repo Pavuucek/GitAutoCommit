@@ -67,10 +67,24 @@ namespace GitAutoCommit.Forms
         public EditTaskForm()
         {
             InitializeComponent();
-
+            LoadLanguage();
             commitMessageTextBox.Font = FontHelper.MonospaceFont;
 
             intervalComboBox.Items.AddRange(Intervals);
+        }
+
+        /// <summary>
+        ///     Loads language constants from resources.
+        /// </summary>
+        private void LoadLanguage()
+        {
+            Text = Resources.EditTaskForm_Caption;
+            folderLabel.Text = Resources.EditTaskForm_folderLabel;
+            nameLabel.Text = Resources.EditTaskForm_nameLabel;
+            intervalLabel.Text = Resources.EditTaskForm_intervalLabel;
+            commitMessageLabel.Text = Resources.EditTaskForm_commitMessageLabel;
+            okButton.Text = Resources.ButtonOk;
+            cancelButton.Text = Resources.ButtonCancel;
         }
 
         /// <summary>
@@ -131,7 +145,7 @@ namespace GitAutoCommit.Forms
             if (folderTextBox.Text == "" || !Directory.Exists(folderTextBox.Text))
             {
                 MessageBox.Show(this, Resources.EditTaskForm_FormIsValid_Please_enter_a_valid_folder,
-                    Resources.Program_Main_git_auto_commit, MessageBoxButtons.OK,
+                    Resources.AppName, MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return false;
             }
@@ -141,7 +155,7 @@ namespace GitAutoCommit.Forms
             {
                 MessageBox.Show(this,
                     Resources.EditTaskForm_FormIsValid_The_selected_folder_doesnt_seem_to_be_a_git_repository,
-                    Resources.Program_Main_git_auto_commit,
+                    Resources.AppName,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }

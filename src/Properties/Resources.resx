@@ -139,12 +139,6 @@
   <data name="plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Program_Main_git_auto_commit" xml:space="preserve">
-    <value>git-auto-commit</value>
-  </data>
-  <data name="NotifyIconController_NotifyIconController_Git_auto_commit" xml:space="preserve">
-    <value>Git auto commit</value>
-  </data>
   <data name="NotifyIconController_NotifyIconController_Configuration" xml:space="preserve">
     <value>&amp;Configuration</value>
   </data>
@@ -204,5 +198,47 @@
   </data>
   <data name="EditableList_deleteButton_Click_Are_you_sure" xml:space="preserve">
     <value>Are you sure?</value>
+  </data>
+  <data name="EditableList_AddButton" xml:space="preserve">
+    <value>&amp;Add</value>
+  </data>
+  <data name="EditableList_EditButton" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="EditableList_DeleteButton" xml:space="preserve">
+    <value>&amp;Delete</value>
+  </data>
+  <data name="DebugWindow_Caption" xml:space="preserve">
+    <value>Debug Window</value>
+  </data>
+  <data name="EditTaskForm_Caption" xml:space="preserve">
+    <value>Edit Task</value>
+  </data>
+  <data name="EditTaskForm_folderLabel" xml:space="preserve">
+    <value>Folder:</value>
+  </data>
+  <data name="EditTaskForm_nameLabel" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="EditTaskForm_intervalLabel" xml:space="preserve">
+    <value>Interval:</value>
+  </data>
+  <data name="EditTaskForm_commitMessageLabel" xml:space="preserve">
+    <value>Commit Message:</value>
+  </data>
+  <data name="ButtonOk" xml:space="preserve">
+    <value>&amp;Ok</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Git Auto-Commit</value>
+  </data>
+  <data name="MainForm_tasksLabel" xml:space="preserve">
+    <value>tasks</value>
+  </data>
+  <data name="NotifyIconController_NotifyIconController_About" xml:space="preserve">
+    <value>&amp;About...</value>
   </data>
 </root>

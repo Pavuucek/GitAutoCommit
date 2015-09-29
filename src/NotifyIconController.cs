@@ -59,6 +59,8 @@ namespace GitAutoCommit
             contextMenu.Items.AddRange(
                 new ToolStripItem[]
                 {
+                    new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_About, null, (s, e) => ShowAbout()),
+                    new ToolStripSeparator(), 
                     new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Configuration, null,
                         (s, e) => ShowMainForm()),
                     new ToolStripMenuItem(Resources.NotifyIconController_NotifyIconController_Exit, null,
@@ -68,7 +70,7 @@ namespace GitAutoCommit
 
             _notifyIcon.ContextMenuStrip = contextMenu;
             _notifyIcon.Icon = Resources.icon_16;
-            _notifyIcon.Text = Resources.NotifyIconController_NotifyIconController_Git_auto_commit;
+            _notifyIcon.Text = Resources.AppName;
 
             _notifyIcon.DoubleClick += delegate { ShowMainForm(); };
 
@@ -76,6 +78,11 @@ namespace GitAutoCommit
             {
                 ShowMainForm();
             }
+        }
+
+        private void ShowAbout()
+        {
+            
         }
 
         /// <summary>
