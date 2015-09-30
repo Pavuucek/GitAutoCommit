@@ -18,3 +18,4 @@ where:
 
 Note that git.exe is assumed to be in the path and that all directories are
 already git repositories
+Join the chat at https://gitter.im/Pavuucek/git-auto-commit
