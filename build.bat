@@ -6,9 +6,6 @@ rem call version.bat
 
 if ERRORLEVEL 1 pause
 
-copy /y license.txt bin\Debug\license.txt
-copy /y license.txt bin\Release\license.txt
-
 gitversioner.exe w zip.bat
 call zip.bat
 gitversioner r zip.bat
