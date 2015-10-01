@@ -8,7 +8,7 @@ a specified length of time, then automatically commits the changed files
 to a git repository.
 
 
-### usage: 
+### usage: ###
     git-auto-commit <commit-interval> <dir 1>, <dir 2>, ..., <dir n>
 
 where:
