@@ -1,7 +1,6 @@
-[![Stories in Ready](https://badge.waffle.io/Pavuucek/git-auto-commit.png?label=ready&title=Ready)](https://waffle.io/Pavuucek/git-auto-commit)
 # Git Auto-Commit #
 -------------------
-[![Build status](https://ci.appveyor.com/api/projects/status/hygwdaf7jbn2r8pm?svg=true)](https://ci.appveyor.com/project/Pavuucek/git-auto-commit)
+[![Build status](https://ci.appveyor.com/api/projects/status/hygwdaf7jbn2r8pm?svg=true)](https://ci.appveyor.com/project/Pavuucek/git-auto-commit) [![Stories in Ready](https://badge.waffle.io/Pavuucek/git-auto-commit.png?label=ready&title=Ready)](https://waffle.io/Pavuucek/git-auto-commit)
 
 Git Auto-Commit is a tiny C#/.net 4 app that sits in your system tray, 
 watching folders you specify. When a file is changed or added, it waits 
