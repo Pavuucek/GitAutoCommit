@@ -1,2 +1,2 @@
-@curl --form token=3aO3AS5M0k8tsNAXXMeKiQ --form email=michal.kuncl@gmail.com --form --form version="$Branch$:$MajorVersion$.$MinorVersion$.$Revision$-$Commit$-$ShortHash$" file=@coverity-GitAutoCommit.tar https://scan.coverity.com/builds?project=Pavuucek%2FGitAutoCommit
+@curl --form token=3aO3AS5M0k8tsNAXXMeKiQ --form email=michal.kuncl@gmail.com --form file=@coverity-GitAutoCommit.tar --form version="$Branch$:$MajorVersion$.$MinorVersion$.$Revision$-$Commit$-$ShortHash$" --form description="$MajorVersion$.$MinorVersion$.$Revision$-$Commit$-$ShortHash$" https://scan.coverity.com/builds?project=Pavuucek%2FGitAutoCommit
 @exit
