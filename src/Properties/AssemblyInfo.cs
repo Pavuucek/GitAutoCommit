@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("git-auto-commit")]
 [assembly: AssemblyProduct("GitAutoCommit")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCopyright("Copyright © Gareth Lennox 2011")]
+[assembly: AssemblyCopyright("Copyright ï¿½ Gareth Lennox 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -28,8 +28,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.58")]
-[assembly: AssemblyFileVersion("1.0.0.58")]
-[assembly: AssemblyInformationalVersion("master:1.0.0-58-g2fb611a")]
-[assembly: AssemblyDescription("Compiled from Branch:master, Commit: 2fb611afabf6808bb2e6815c38b6900e1cbc8c01")]
+// [assembly: AssemblyVersion("1.0.0.61")]
+[assembly: AssemblyVersion("1.0.0.61")]
+[assembly: AssemblyFileVersion("1.0.0.61")]
+[assembly: AssemblyInformationalVersion("master:1.0.0-61-gd2a342d")]
